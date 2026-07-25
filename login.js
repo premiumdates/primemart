@@ -28,7 +28,7 @@ import {
 
 const provider = new GoogleAuthProvider();
 
-document.getElementById("googleSignupBtn").addEventListener("click", async () => {
+document.getElementById("googleLoginBtn").addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     alert("Welcome " + result.user.displayName);
