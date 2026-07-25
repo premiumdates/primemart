@@ -28,3 +28,20 @@ signupBtn.addEventListener("click", async () => {
   }
 
 });
+import { auth } from "./firebase.js";
+import {
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const provider = new GoogleAuthProvider();
+
+document.getElementById("googleSignupBtn").addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    alert("Welcome " + result.user.displayName);
+    window.location.href = "index.html";
+  } catch (error) {
+    alert(error.message);
+  }
+});
