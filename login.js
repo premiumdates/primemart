@@ -20,7 +20,7 @@ loginBtn.addEventListener("click", async () => {
     alert(error.message);
   }
 });
-import { auth } from "./firebase.js";
+
 import {
   GoogleAuthProvider,
   signInWithPopup
