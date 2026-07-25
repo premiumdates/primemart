@@ -28,7 +28,7 @@ signupBtn.addEventListener("click", async () => {
   }
 
 });
-import { auth } from "./firebase.js";
+
 import {
   GoogleAuthProvider,
   signInWithPopup
