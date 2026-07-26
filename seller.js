@@ -2,6 +2,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 
 import {
   getFirestore,
+  import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
   collection,
   addDoc,
   getDocs,
@@ -22,7 +28,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+const storage = getStorage(app);
 const addBtn = document.getElementById("addBtn");
 const table = document.getElementById("productTable");
 
