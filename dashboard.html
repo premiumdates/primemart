@@ -111,6 +111,15 @@
 <script>
 document.getElementById("sellerStore").innerHTML =
 localStorage.getItem("storeName");
+<script>
+
+if(localStorage.getItem("storeCreated")!="yes"){
+
+location.href="seller.html";
+
+}
+
 </script>
+
 </body>
 </html>
