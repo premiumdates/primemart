@@ -65,6 +65,7 @@ font-size:18px;
 <input id="district" placeholder="District">
 
 <input id="tehsil" placeholder="Tehsil">
+<input id="postalCode" placeholder="Postal Code">
 <textarea id="address" placeholder="Address"></textarea>
 
 <button onclick="createStore()">
@@ -82,21 +83,17 @@ document.getElementById("storeName").value);
 
 localStorage.setItem("ownerName",
 document.getElementById("ownerName").value);
-localStorage.setItem("country", country);
-localStorage.setItem("province", province);
-localStorage.setItem("district", district);
-localStorage.setItem("tehsil", tehsil);
-localStorage.setItem("address", address);
+localStorage.setItem("phone",
+document.getElementById("phone").value);
 const store = document.getElementById("storeName").value.trim();
 const owner = document.getElementById("ownerName").value.trim();
 const phone = document.getElementById("phone").value.trim();
-    
-coconst country = document.getElementById("country").value.trim();
+const country = document.getElementById("country").value.trim(); 
 const province = document.getElementById("province").value.trim();
 const district = document.getElementById("district").value.trim();
 const tehsil = document.getElementById("tehsil").value.trim();
 const address = document.getElementById("address").value.trim();
-
+const postalCode = document.getElementById("postalCode").value.trim();
 if(
 store=="" ||
 owner=="" ||
@@ -106,16 +103,22 @@ province=="" ||
 district=="" ||
 tehsil=="" ||
 address==""
+|| postalCode==""
 ){
     alert("براہ کرم تمام معلومات مکمل کریں۔");
     return;
 }
+localStorage.setItem("country", country);
+localStorage.setItem("province", province);
+localStorage.setItem("district", district);
+localStorage.setItem("tehsil", tehsil);
+localStorage.setItem("address", address);
+localStorage.setItem("postalCode", postalCode);
 localStorage.setItem("storeCreated","yes");
     
 location.href="dashboard.html";
 
 }
-
 </script>
 
 </body>
