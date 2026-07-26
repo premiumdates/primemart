@@ -11,13 +11,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCyEX9kj1lbhWJNUkJC4lraKAZFNj3PuWE",
-  authDomain: "premium-dates.firebaseapp.com",
-  projectId: "premium-dates",
-  storageBucket: "premium-dates.firebasestorage.app",
-  messagingSenderId: "696354648755",
-  appId: "1:696354648755:web:ff911e82623f985f44f6c6",
-  measurementId: "G-EPTZDDLZTM"
+  apiKey: "AIzaSyAXMl5u5PekmZsSB7tYFyibitVJsnJEF10",
+  authDomain: "primemart-6a101.firebaseapp.com",
+  projectId: "primemart-6a101",
+  storageBucket: "primemart-6a101.firebasestorage.app",
+  messagingSenderId: "675471841308",
+  appId: "1:675471841308:web:0a3a861890a820072ce7d9",
+  measurementId: "G-HPGWP68Z9L"
 };
 
 const app = initializeApp(firebaseConfig);
