@@ -295,3 +295,172 @@ nav a{
     text-align:center;
 }
 }
+/* ===== Seller Dashboard ===== */
+
+.seller-header{
+background:#0f172a;
+padding:30px;
+text-align:center;
+color:white;
+}
+
+.seller-logo img{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:10px;
+}
+
+.seller-logo h1{
+font-size:38px;
+color:#FFD700;
+margin:5px 0;
+}
+
+.seller-logo p{
+font-size:18px;
+color:white;
+}
+
+.seller-dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:30px;
+}
+
+.dashboard-card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+text-align:center;
+}
+
+.dashboard-card h3{
+margin-bottom:10px;
+color:#2563eb;
+}
+
+.seller-form{
+background:white;
+margin:30px;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.seller-form h2{
+margin-bottom:20px;
+color:#2563eb;
+}
+
+.seller-form input,
+.seller-form select,
+.seller-form textarea{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+}
+
+.seller-form button{
+width:100%;
+padding:15px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.seller-form button:hover{
+background:#1d4ed8;
+}
+
+.seller-products{
+margin:30px;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+overflow-x:auto;
+}
+
+.seller-products table{
+width:100%;
+border-collapse:collapse;
+}
+
+.seller-products th,
+.seller-products td{
+padding:15px;
+border-bottom:1px solid #eee;
+text-align:center;
+}
+
+.seller-products th{
+background:#2563eb;
+color:white;
+}
+
+.seller-products img{
+width:70px;
+height:70px;
+border-radius:10px;
+object-fit:cover;
+}
+
+.seller-products button{
+padding:8px 15px;
+margin:3px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.seller-products button:first-child{
+background:#FFD700;
+}
+
+.seller-products button:last-child{
+background:#ef4444;
+color:white;
+}
+
+@media(max-width:768px){
+
+.seller-header{
+padding:20px;
+}
+
+.seller-logo img{
+width:60px;
+height:60px;
+}
+
+.seller-logo h1{
+font-size:28px;
+}
+
+.seller-dashboard{
+grid-template-columns:1fr;
+padding:15px;
+}
+
+.seller-form,
+.seller-products{
+margin:15px;
+padding:20px;
+}
+
+.seller-products table{
+font-size:14px;
+}
+
+}
