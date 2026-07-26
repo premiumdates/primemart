@@ -94,7 +94,7 @@ console.log("Start Add Product");
     } catch (error) {
 
         alert(error.message);
-
+      console.log(error);
     }
 
 } else {
