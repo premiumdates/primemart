@@ -85,9 +85,22 @@ document.getElementById("ownerName").value);
 const store = document.getElementById("storeName").value.trim();
 const owner = document.getElementById("ownerName").value.trim();
 const phone = document.getElementById("phone").value.trim();
-const address = document.getElementById("address").value.trim();
+    
+coconst country = document.getElementById("country").value.trim();
+const province = document.getElementById("province").value.trim();
+const district = document.getElementById("district").value.trim();
+const tehsil = document.getElementById("tehsil").value.trim();nst address = document.getElementById("address").value.trim();
 
-if(store=="" || owner=="" || phone=="" || address==""){
+if(
+store=="" ||
+owner=="" ||
+phone=="" ||
+country=="" ||
+province=="" ||
+district=="" ||
+tehsil=="" ||
+address==""
+){
     alert("براہ کرم تمام معلومات مکمل کریں۔");
     return;
 }
