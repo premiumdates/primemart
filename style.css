@@ -232,3 +232,115 @@ transform:translateY(-8px);
 body{
     background:#f4f7fb;
 }
+/* ===== Desktop ===== */
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    padding:15px 30px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+}
+
+.search{
+    width:320px;
+    padding:12px;
+    margin:10px 0;
+}
+
+nav{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.hero button{
+    margin:10px;
+}
+
+/* ===== Mobile ===== */
+@media (max-width:768px){
+
+.header{
+    display:block;
+    text-align:center;
+    padding:20px;
+}
+
+.logo{
+    justify-content:center;
+    margin-bottom:15px;
+}
+
+.logo img{
+    width:55px;
+    height:55px;
+}
+
+.logo h1{
+    font-size:32px;
+}
+
+.search{
+    width:100%;
+    margin:15px 0;
+}
+
+nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+    margin-top:20px;   /* سرچ بار سے نیچے */
+}
+
+nav a{
+    margin:0;
+    font-size:18px;
+}
+
+.hero{
+    padding:60px 20px;
+}
+
+.hero h1{
+    font-size:42px;
+}
+
+.hero p{
+    font-size:24px;
+    margin-bottom:25px;
+}
+
+.hero button{
+    display:block;
+    width:220px;
+    margin:15px auto;   /* دونوں بٹن الگ الگ */
+}
+
+.grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.card{
+    font-size:18px;
+    padding:20px;
+}
+
+.footer{
+    text-align:center;
+}
+}
