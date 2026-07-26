@@ -85,6 +85,8 @@ if(store=="" || owner=="" || phone=="" || address==""){
     alert("براہ کرم تمام معلومات مکمل کریں۔");
     return;
 }
+localStorage.setItem("storeCreated","yes");
+    
 location.href="dashboard.html";
 
 }
