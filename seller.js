@@ -51,7 +51,9 @@ async function loadProducts() {
 
     table.innerHTML += `
       <tr>
-        <td>📦</td>
+        <td>
+  <img src="${p.image}" width="60" height="60" style="object-fit:cover;border-radius:8px;">
+</td>
         <td>${p.name}</td>
         <td>Rs. ${p.price}</td>
         <td>${p.stock}</td>
@@ -91,7 +93,8 @@ if(imageFile){
     price: priceInput.value,
     stock: stockInput.value,
     category: categoryInput.value,
-    description: descriptionInput.value
+    description: descriptionInput.value,
+    image: imageUrl
   };
 
   if (
