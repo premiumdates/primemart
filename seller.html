@@ -84,7 +84,15 @@ document.getElementById("storeName").value);
 
 localStorage.setItem("ownerName",
 document.getElementById("ownerName").value);
+const store = document.getElementById("storeName").value.trim();
+const owner = document.getElementById("ownerName").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const address = document.getElementById("address").value.trim();
 
+if(store=="" || owner=="" || phone=="" || address==""){
+    alert("براہ کرم تمام معلومات مکمل کریں۔");
+    return;
+}
 location.href="dashboard.html";
 
 }
