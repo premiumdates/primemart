@@ -21,11 +21,6 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-import {
-  GoogleAuthProvider,
-  signInWithPopup
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 const provider = new GoogleAuthProvider();
 
 document.getElementById("googleLoginBtn").addEventListener("click", async () => {
