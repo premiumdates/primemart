@@ -140,7 +140,17 @@ transform:translateY(-8px);
     resize:vertical;
     min-height:100px;
 }
-
+.login-box textarea{
+    width:100%;
+    min-height:100px;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    resize:vertical;
+    box-sizing:border-box;
+}
 .login-box button{
     width:100%;
     padding:14px;
@@ -297,6 +307,19 @@ nav a{
 .footer{
     text-align:center;
 }
+}
+/* Complete Address Box */
+#address{
+    width:100%;
+    min-height:100px;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    resize:vertical;
+    box-sizing:border-box;
+    display:block;
 }
 /* ===== Seller Dashboard ===== */
 
