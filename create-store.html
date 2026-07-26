@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Store - PrimeMart</title>
 
+    <link rel="stylesheet" href="create-store.css">
+</head>
+
+<body>
+
+<div class="store-container">
+
+    <h1>Create Your Store</h1>
+    <p>Open your own store and start selling on PrimeMart.</p>
+
+    <form id="createStoreForm">
+
+        <label>Store Name</label>
+        <input
+        type="text"
+        id="storeName"
+        placeholder="Enter Store Name"
+        required>
+
+        <label>Store Description</label>
+
+        <textarea
+        id="storeDescription"
+        rows="4"
+        placeholder="Write a short description about your store"></textarea>
+
+        <label>Store Category</label>
+
+        <select id="storeCategory" required>
+
+            <option value="">Select Category</option>
+
+            <option>All Categories</option>
+
+            <option>Mobile Phones</option>
+
+            <option>Electronics</option>
+
+            <option>Fashion</option>
+
+            <option>Men Clothing</option>
+
+            <option>Women Clothing</option>
+
+            <option>Shoes</option>
+
+            <option>Watches</option>
+
+            <option>Beauty</option>
+
+            <option>Health</option>
+
+            <option>Sports</option>
+
+            <option>Books</option>
+
+            <option>Home & Kitchen</option>
+
+            <option>Furniture</option>
+
+            <option>Computers</option>
+
+            <option>Gaming</option>
+
+            <option>Automotive</option>
+
+            <option>Baby Products</option>
+
+            <option>Groceries</option>
+
+            <option>Pets</option>
+
+        </select>
+
+        <label class="checkbox">
+
+            <input type="checkbox" required>
+
+            I agree to the Terms & Conditions
+
+        </label>
+
+        <button type="submit">
+
+            Create Store
+
+        </button>
+
+    </form>
+
+</div>
+
+<script src="create-store.js"></script>
+
+</body>
+</html>
