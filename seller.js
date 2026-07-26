@@ -89,7 +89,11 @@ loadProducts();
 addBtn.onclick = async function () {
 alert("Button Clicked");
 console.log("Start Add Product"); 
-  
+const imageFile = document.getElementById("image").files[0];
+
+let imageUrl = "";
+
+if (imageFile) {
 
     const imageRef = ref(storage, "products/" + Date.now() + "_" + imageFile.name);
 
@@ -97,6 +101,7 @@ console.log("Start Add Product");
 
     imageUrl = await getDownloadURL(imageRef);
 
+}
 }
   const product = {
     name: nameInput.value,
