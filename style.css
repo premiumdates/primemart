@@ -178,6 +178,14 @@ transform:translateY(-8px);
 .login-box button{
     width:100%;
     padding:14px;
+    .logo img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-right:10px;
+    vertical-align:middle;
+    }
     margin-top:15px;
     background:#2563eb;
     color:white;
