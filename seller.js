@@ -65,7 +65,7 @@ async function loadProducts() {
 
 loadProducts();
 addBtn.onclick = async function () {
-
+alert("Button Clicked");
   const product = {
     name: nameInput.value,
     price: priceInput.value,
