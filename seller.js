@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
   getFirestore,
   collection,
@@ -8,84 +9,127 @@ import {
   doc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCyEX9kj1lbhWJNUkJC4lraKAZFNj3PuWE",
+  authDomain: "premium-dates.firebaseapp.com",
+  projectId: "premium-dates",
+  storageBucket: "premium-dates.firebasestorage.app",
+  messagingSenderId: "696354648755",
+  appId: "1:696354648755:web:ff911e82623f985f44f6c6",
+  measurementId: "G-EPTZDDLZTM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const addBtn = document.getElementById("addBtn");
 const table = document.getElementById("productTable");
 
-let products = [];
+const nameInput = document.getElementById("name");
+const priceInput = document.getElementById("price");
+const stockInput = document.getElementById("stock");
+const categoryInput = document.getElementById("category");
+const descriptionInput = document.getElementById("description");
 
-addBtn.onclick = function () {
+let editingId = null;
+async function loadProducts() {
+  table.innerHTML = "";
 
-const name = document.getElementById("name").value;
-const price = document.getElementById("price").value;
-const stock = document.getElementById("stock").value;
-const category = document.getElementById("category").value;
+  const snapshot = await getDocs(collection(db, "products"));
 
-if(name=="" || price=="" || stock==""){
-alert("Fill all fields");
-return;
+  document.getElementById("productCount").innerHTML = snapshot.size;
+
+  snapshot.forEach((docSnap) => {
+    const p = docSnap.data();
+
+    table.innerHTML += `
+      <tr>
+        <td>📦</td>
+        <td>${p.name}</td>
+        <td>Rs. ${p.price}</td>
+        <td>${p.stock}</td>
+        <td>
+          <button onclick="editProduct('${docSnap.id}','${p.name}','${p.price}','${p.stock}','${p.category}','${p.description || ""}')">
+            Edit
+          </button>
+
+          <button onclick="deleteProduct('${docSnap.id}')">
+            Delete
+          </button>
+        </td>
+      </tr>
+    `;
+  });
 }
 
-products.push({
-name,
-price,
-stock,
-category
-});
+loadProducts();
+addBtn.onclick = async function () {
 
-showProducts();
+  const product = {
+    name: nameInput.value,
+    price: priceInput.value,
+    stock: stockInput.value,
+    category: categoryInput.value,
+    description: descriptionInput.value
+  };
 
+  if (
+    product.name == "" ||
+    product.price == "" ||
+    product.stock == ""
+  ) {
+    alert("تمام فیلڈز بھریں");
+    return;
+  }
+
+  if (editingId == null) {
+
+    await addDoc(collection(db, "products"), product);
+
+  } else {
+
+    await updateDoc(doc(db, "products", editingId), product);
+
+    editingId = null;
+    addBtn.innerHTML = "Add Product";
+  }
+
+  nameInput.value = "";
+  priceInput.value = "";
+  stockInput.value = "";
+  categoryInput.value = "";
+  descriptionInput.value = "";
+
+  loadProducts();
 };
 
-function showProducts(){
+window.deleteProduct = async function (id) {
 
-table.innerHTML="";
+  if (confirm("کیا آپ واقعی یہ پروڈکٹ حذف کرنا چاہتے ہیں؟")) {
 
-products.forEach((p,index)=>{
+    await deleteDoc(doc(db, "products", id));
 
-table.innerHTML += `
-<tr>
+    loadProducts();
+  }
+};
 
-<td>📦</td>
+window.editProduct = function (
+  id,
+  name,
+  price,
+  stock,
+  category,
+  description
+) {
 
-<td>${p.name}</td>
+  editingId = id;
 
-<td>Rs. ${p.price}</td>
+  nameInput.value = name;
+  priceInput.value = price;
+  stockInput.value = stock;
+  categoryInput.value = category;
+  descriptionInput.value = description;
 
-<td>${p.stock}</td>
-
-<td>
-
-<button onclick="editProduct(${index})">Edit</button>
-
-<button onclick="deleteProduct(${index})">Delete</button>
-
-</td>
-
-</tr>
-`;
-
-});
-
-document.getElementById("productCount").innerHTML=products.length;
-
-}
-
-function deleteProduct(index){
-
-products.splice(index,1);
-
-showProducts();
-
-}
-
-function editProduct(index){
-
-document.getElementById("name").value=products[index].name;
-document.getElementById("price").value=products[index].price;
-document.getElementById("stock").value=products[index].stock;
-
-products.splice(index,1);
-
-showProducts();
-
-}
+  addBtn.innerHTML = "Update Product";
+};
