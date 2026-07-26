@@ -24,7 +24,6 @@ flex-wrap:wrap;
     align-items:center;
     gap:10px;
 }
-}
 
 .logo img{
     width:45px;
@@ -33,7 +32,6 @@ flex-wrap:wrap;
     object-fit:cover;
 }
 }
-
 .logo h1{
     font-size:28px;
     color:#FFD700;
