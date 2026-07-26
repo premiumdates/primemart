@@ -166,13 +166,6 @@ transform:translateY(-8px);
     margin-bottom:20px;
 }
 
-.logo{
-    width:80px;
-    height:80px;
-    object-fit:contain;
-    margin-bottom:10px;
-}
-
 .brand h1{
     font-size:32px;
     font-weight:700;
