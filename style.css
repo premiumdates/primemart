@@ -128,7 +128,8 @@ transform:translateY(-8px);
     color:#333;
 }
 
-.login-box input{
+.login-box input,
+.login-box textarea{
     width:100%;
     padding:14px;
     margin:10px 0;
@@ -136,6 +137,8 @@ transform:translateY(-8px);
     border-radius:8px;
     font-size:16px;
     box-sizing:border-box;
+    resize:vertical;
+    min-height:100px;
 }
 
 .login-box button{
