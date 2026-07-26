@@ -25,3 +25,18 @@ card.style.display="none";
 });
 
 });
+document.addEventListener("DOMContentLoaded", function () {
+
+    const openStoreBtn = document.getElementById("openStoreBtn");
+
+    if (openStoreBtn) {
+
+        openStoreBtn.addEventListener("click", function () {
+
+            window.location.href = "signup.html";
+
+        });
+
+    }
+
+});
