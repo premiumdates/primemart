@@ -85,9 +85,18 @@ alert("Button Clicked");
 
   if (editingId == null) {
 
-    await addDoc(collection(db, "products"), product);
+    try {
 
-  } else {
+        await addDoc(collection(db, "products"), product);
+        alert("Product Added Successfully");
+
+    } catch (error) {
+
+        alert(error.message);
+
+    }
+
+} else {
 
     await updateDoc(doc(db, "products", editingId), product);
 
