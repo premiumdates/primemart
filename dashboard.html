@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimeMart Seller Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimeMart Seller Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="seller-header">
+
+<div class="seller-logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h1>PrimeMart</h1>
+
+<p>🛒 Seller Dashboard</p>
+
+</div>
+
+</header>
+
+
+<section class="seller-dashboard">
+
+<div class="dashboard-card">
+<h3>🏪 My Store</h3>
+<p>PrimeMart Seller</p>
+</div>
+
+<div class="dashboard-card">
+<h3>📦 Products</h3>
+<p id="productCount">0</p>
+</div>
+
+<div class="dashboard-card">
+<h3>💰 Total Sales</h3>
+<p>Rs.0</p>
+</div>
+
+</section>
+
+
+<section class="seller-form">
+
+<h2>Add New Product</h2>
+
+<input type="text" id="name" placeholder="Product Name">
+
+<input type="number" id="price" placeholder="Price">
+
+<input type="number" id="stock" placeholder="Stock">
+
+<select id="category">
+
+<option>Dates</option>
+<option>Honey</option>
+<option>Dry Fruits</option>
+<option>Electronics</option>
+<option>Fashion</option>
+
+</select>
+
+<input type="file" id="image">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<button id="addBtn">Add Product</button>
+
+</section>
+
+
+<section class="seller-products">
+
+<h2>My Products</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Image</th>
+
+<th>Name</th>
+
+<th>Price</th>
+
+<th>Stock</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="productTable">
+
+</tbody>
+
+</table>
+
+</section>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+
+<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+<script src="seller.js"></script>
+
+</body>
+</html>
