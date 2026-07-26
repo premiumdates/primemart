@@ -1,7 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
 import {
   getFirestore,
   collection,
@@ -11,25 +9,7 @@ import {
   doc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+  
 const firebaseConfig = {
   apiKey: "AIzaSyAXMl5u5PekmZsSB7tYFyibitVJsnJEF10",
   authDomain: "primemart-6a101.firebaseapp.com",
@@ -42,7 +22,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
+
 const addBtn = document.getElementById("addBtn");
 const table = document.getElementById("productTable");
 
@@ -65,9 +45,7 @@ async function loadProducts() {
 
     table.innerHTML += `
       <tr>
-        <td>
-  <img src="${p.image}" width="60" height="60" style="object-fit:cover;border-radius:8px;">
-</td>
+        <td>📦</td>
         <td>${p.name}</td>
         <td>Rs. ${p.price}</td>
         <td>${p.stock}</td>
@@ -89,19 +67,6 @@ loadProducts();
 addBtn.onclick = async function () {
 alert("Button Clicked");
 console.log("Start Add Product"); 
-const imageFile = document.getElementById("image").files[0];
-
-let imageUrl = "";
-
-if (imageFile) {
-
-    const imageRef = ref(storage, "products/" + Date.now() + "_" + imageFile.name);
-
-    await uploadBytes(imageRef, imageFile);
-
-    imageUrl = await getDownloadURL(imageRef);
-
-}
 }
   const product = {
     name: nameInput.value,
