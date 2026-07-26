@@ -75,11 +75,7 @@ loadProducts();
 addBtn.onclick = async function () {
 alert("Button Clicked");
 console.log("Start Add Product"); 
-  const imageFile = document.getElementById("image").files[0];
-
-let imageUrl = "";
-
-if(imageFile){
+  
 
     const imageRef = ref(storage, "products/" + Date.now() + "_" + imageFile.name);
 
@@ -94,7 +90,6 @@ if(imageFile){
     stock: stockInput.value,
     category: categoryInput.value,
     description: descriptionInput.value,
-    image: imageUrl
   };
 
   if (
