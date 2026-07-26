@@ -8,68 +8,117 @@
 </head>
 
 <body>
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimeMart Seller Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-<header class="header">
-<h1>PrimeMart Seller Dashboard</h1>
+<body>
+
+<header class="seller-header">
+
+<div class="seller-logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h1>PrimeMart</h1>
+
+<p>🛒 Seller Dashboard</p>
+
+</div>
+
 </header>
+
 
 <section class="seller-dashboard">
 
-<h2>Add New Product</h2>
+<div class="dashboard-card">
+<h3>🏪 My Store</h3>
+<p>PrimeMart Seller</p>
+</div>
 
-<input type="text" placeholder="Product Name">
+<div class="dashboard-card">
+<h3>📦 Products</h3>
+<p id="productCount">0</p>
+</div>
 
-<input type="number" placeholder="Price">
-
-<input type="number" placeholder="Stock Quantity">
-
-<input type="file">
-
-<textarea placeholder="Product Description"></textarea>
-
-<button>Add Product</button>
+<div class="dashboard-card">
+<h3>💰 Total Sales</h3>
+<p>Rs.0</p>
+</div>
 
 </section>
+
+
+<section class="seller-form">
+
+<h2>Add New Product</h2>
+
+<input type="text" id="name" placeholder="Product Name">
+
+<input type="number" id="price" placeholder="Price">
+
+<input type="number" id="stock" placeholder="Stock">
+
+<select id="category">
+
+<option>Dates</option>
+<option>Honey</option>
+<option>Dry Fruits</option>
+<option>Electronics</option>
+<option>Fashion</option>
+
+</select>
+
+<input type="file" id="image">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<button id="addBtn">Add Product</button>
+
+</section>
+
+
 <section class="seller-products">
 
 <h2>My Products</h2>
 
 <table>
 
+<thead>
+
 <tr>
-<th>Product</th>
+
+<th>Image</th>
+
+<th>Name</th>
+
 <th>Price</th>
+
 <th>Stock</th>
+
 <th>Action</th>
+
 </tr>
 
-<tr>
-<td>Premium Dates</td>
-<td>Rs. 2,999</td>
-<td>50</td>
-<td>
-<button>Edit</button>
-<button>Delete</button>
-</td>
-</tr>
+</thead>
 
-<tr>
-<td>Pure Honey</td>
-<td>Rs. 1,499</td>
-<td>30</td>
-<td>
-<button>Edit</button>
-<button>Delete</button>
-</td>
-</tr>
+<tbody id="productTable">
+
+</tbody>
 
 </table>
 
 </section>
 
-<footer class="footer">
-<p>© 2026 PrimeMart Seller Panel</p>
-</footer>
+<script src="seller.js"></script>
+
+</body>
+</html>
 
 </body>
 </html>
