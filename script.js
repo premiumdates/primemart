@@ -1,9 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-const button = document.querySelector(".hero button");
+const search = document.getElementById("searchBox");
 
-button.addEventListener("click", () => {
-    alert("Welcome to PrimeMart! Shopping feature is coming soon.");
+const cards = document.querySelectorAll(".card");
+
+search.addEventListener("keyup", function () {
+
+let value = search.value.toLowerCase();
+
+cards.forEach((card)=>{
+
+if(card.innerText.toLowerCase().includes(value)){
+
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
 });
 
 });
