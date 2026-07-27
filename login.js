@@ -35,6 +35,8 @@ const provider = new GoogleAuthProvider();
 document.getElementById("googleLoginBtn").addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, provider);
+    localStorage.setItem("currentUser", result.user.uid);
+localStorage.setItem("userEmail", result.user.email);
     alert("Welcome " + result.user.displayName);
     window.location.href = "choose-account.html";
   } catch (error) {
