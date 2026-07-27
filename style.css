@@ -825,3 +825,70 @@ font-size:15px;
 }
 
 }
+/* ---------- Right Menu ---------- */
+
+.right-menu{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.login-btn,
+.signup-btn{
+    background:#138a36;
+    color:#fff;
+    padding:10px 20px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.profile-dropdown{
+    position:relative;
+}
+
+.profile-btn,
+.cart-btn{
+    background:#138a36;
+    color:#fff;
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    text-decoration:none;
+    font-size:20px;
+}
+
+.profile-menu{
+    display:none;
+    position:absolute;
+    right:0;
+    top:55px;
+    background:#fff;
+    width:190px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.25);
+    overflow:hidden;
+    z-index:999;
+}
+
+.profile-menu a{
+    display:block;
+    padding:12px;
+    text-decoration:none;
+    color:#222;
+    font-weight:600;
+}
+
+.profile-menu a:hover{
+    background:#f3f3f3;
+}
+
+.profile-dropdown:hover .profile-menu{
+    display:block;
+}
