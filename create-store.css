@@ -196,3 +196,43 @@ nav a:hover{
 .signup-btn:hover{
     transform:scale(1.05);
 }
+/* ===== Responsive Seller Page ===== */
+
+@media (max-width:768px){
+
+.header{
+    display:block;
+    text-align:center;
+    padding:20px;
+}
+
+.logo{
+    justify-content:center;
+    margin-bottom:15px;
+}
+
+.search{
+    width:100%;
+    margin:15px 0;
+}
+
+nav{
+    justify-content:center;
+    gap:10px;
+}
+
+.store-container{
+    width:95%;
+    margin:20px auto;
+    padding:20px;
+}
+
+.store-container h1{
+    font-size:28px;
+}
+
+.store-container button{
+    font-size:16px;
+}
+
+}
