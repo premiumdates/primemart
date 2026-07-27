@@ -20,8 +20,8 @@ signupBtn.addEventListener("click", async () => {
       password.value
     );
 
-    alert("Account Created Successfully!");
-    window.location.href = "login.html";
+   alert("Account Created Successfully!");
+window.location.href = "choose-account.html"; 
 
   } catch (error) {
     alert(error.message);
