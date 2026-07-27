@@ -34,17 +34,31 @@
             <a href="signup.html" class="signup-btn">Sign Up</a>
         </div>
 
-        <div id="userMenu" style="display:none;">
+       <div id="userMenu" style="display:none;">
 
-            <a href="cart.html" class="cart-btn">
-                🛒
-            </a>
+    <a href="cart.html" class="cart-btn">🛒</a>
 
-            <a href="profile.html" class="profile-btn">
-                👤
-            </a>
+    <div class="profile-dropdown">
+
+        <button id="profileBtn" class="profile-btn">
+            👤
+        </button>
+
+        <div id="profileMenu" class="profile-menu">
+
+            <a id="dashboardLink" href="#">Dashboard</a>
+
+            <a href="orders.html">Orders</a>
+
+            <a href="wishlist.html">Wishlist</a>
+
+            <a href="#" id="logoutBtn">Logout</a>
 
         </div>
+
+    </div>
+
+       </div> 
 
     </div>
 
