@@ -203,42 +203,7 @@ Buy & Sell Anything Online
 
 </footer>
 
-
 <script src="script.js"></script>
-  
-<script>
-  
-document.addEventListener("DOMContentLoaded", () => {
-
-    const guestButtons = document.getElementById("guestButtons");
-    const userMenu = document.getElementById("userMenu");
-
-    const currentUser = localStorage.getItem("currentUser");
-
-    if (currentUser) {
-        if (guestButtons) guestButtons.style.display = "none";
-        if (userMenu) userMenu.style.display = "flex";
-    } else {
-        if (guestButtons) guestButtons.style.display = "flex";
-        if (userMenu) userMenu.style.display = "none";
-    }
-const logoutBtn = document.getElementById("logoutBtn");
-
-if (logoutBtn) {
-
-    logoutBtn.onclick = () => {
-
-        localStorage.removeItem("currentUser");
-
-        location.reload();
-
-    };
-
-}
-});
-</script>
-
-
 <script type="module" src="main.js"></script>
 </body>
 </html>
