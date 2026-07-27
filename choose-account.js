@@ -1,7 +1,14 @@
+// ===============================
+// PrimeMart Choose Account
+// ===============================
+
 const buyerBtn = document.getElementById("buyerBtn");
 const sellerBtn = document.getElementById("sellerBtn");
 
+// ===============================
 // Buyer
+// ===============================
+
 buyerBtn.addEventListener("click", () => {
 
     localStorage.setItem("userRole", "buyer");
@@ -10,7 +17,10 @@ buyerBtn.addEventListener("click", () => {
 
 });
 
+// ===============================
 // Seller
+// ===============================
+
 sellerBtn.addEventListener("click", () => {
 
     localStorage.setItem("userRole", "seller");
@@ -19,10 +29,12 @@ sellerBtn.addEventListener("click", () => {
 
     if (storeCreated === "true") {
 
+        // Store پہلے سے موجود ہے
         window.location.href = "seller-dashboard.html";
 
     } else {
 
+        // پہلی مرتبہ Store بنانا ہے
         window.location.href = "create-store.html";
 
     }
