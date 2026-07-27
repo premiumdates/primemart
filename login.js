@@ -18,7 +18,7 @@ loginBtn.addEventListener("click", async () => {
     );
 
     alert("Login Successful!");
-    window.location.href = "index.html";
+    window.location.href = "choose-account.html";
 
   } catch (error) {
     alert(error.message);
@@ -31,7 +31,7 @@ document.getElementById("googleLoginBtn").addEventListener("click", async () => 
   try {
     const result = await signInWithPopup(auth, provider);
     alert("Welcome " + result.user.displayName);
-    window.location.href = "index.html";
+    window.location.href = "choose-account.html";
   } catch (error) {
     alert(error.message);
   }
