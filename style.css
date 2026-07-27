@@ -568,3 +568,76 @@ font-size:14px;
 .seller-btn:hover{
     background:#eab308;
 }
+.choose-account{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#2563eb);
+    padding:20px;
+}
+
+.choose-box{
+    background:#fff;
+    width:100%;
+    max-width:500px;
+    border-radius:18px;
+    padding:35px 25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.choose-box img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+}
+
+.choose-box h1{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.choose-box p{
+    color:#555;
+    margin-bottom:25px;
+}
+
+.choose-btn{
+    display:block;
+    width:100%;
+    padding:16px;
+    margin:15px 0;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.buyer-btn{
+    background:#2563eb;
+    color:#fff;
+}
+
+.buyer-btn:hover{
+    background:#1d4ed8;
+}
+
+.seller-btn{
+    background:#FFD700;
+    color:#111;
+}
+
+.seller-btn:hover{
+    background:#e6c200;
+}
+
+.choose-note{
+    font-size:14px;
+    color:#666;
+    margin-top:20px;
+}
