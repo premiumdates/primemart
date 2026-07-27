@@ -1,83 +1,96 @@
-import { auth } from "./firebase-config.js";
+import { auth, firestore } from "./firebase-config.js";
 
 import {
-GoogleAuthProvider,
-signInWithPopup,
-signInWithEmailAndPassword
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
+
 const loginBtn = document.getElementById("loginBtn");
 const googleLoginBtn = document.getElementById("googleLoginBtn");
 
-// =====================
-// Login
-// =====================
+async function loginSuccess(user){
 
-loginBtn.addEventListener("click", async () => {
+    localStorage.setItem("currentUser", user.uid);
+    localStorage.setItem("userEmail", user.email);
 
-try{
+    const userRef = doc(firestore,"users",user.uid);
+    const userSnap = await getDoc(userRef);
 
-const userCredential = await signInWithEmailAndPassword(
-auth,
-email.value,
-password.value
-);
+    if(!userSnap.exists()){
 
-const user = userCredential.user;
+        alert("User profile not found.");
+        return;
 
-localStorage.setItem("currentUser", user.uid);
-localStorage.setItem("userEmail", user.email);
+    }
 
-// اگر Store بنا ہوا ہے
-if(localStorage.getItem("storeCreated")==="true"){
+    const userData = userSnap.data();
 
-window.location.href="seller-dashboard.html";
+    localStorage.setItem("userRole",userData.role);
+    localStorage.setItem("storeCreated",userData.storeCreated);
+    localStorage.setItem("fullName",userData.fullName);
 
-}else{
-
-window.location.href="index.html";
+    // ہمیشہ Home Page پر جاؤ
+    window.location.href="index.html";
 
 }
 
-}catch(error){
+// ==========================
+// Email Login
+// ==========================
 
-alert(error.message);
+loginBtn.addEventListener("click",async()=>{
 
-}
+    try{
+
+        const userCredential =
+        await signInWithEmailAndPassword(
+            auth,
+            email.value,
+            password.value
+        );
+
+        await loginSuccess(userCredential.user);
+
+    }
+
+    catch(error){
+
+        alert(error.message);
+
+    }
 
 });
 
-// =====================
+// ==========================
 // Google Login
-// =====================
+// ==========================
 
 const provider = new GoogleAuthProvider();
 
-googleLoginBtn.addEventListener("click", async ()=>{
+googleLoginBtn.addEventListener("click",async()=>{
 
-try{
+    try{
 
-const result = await signInWithPopup(auth,provider);
+        const result =
+        await signInWithPopup(auth,provider);
 
-localStorage.setItem("currentUser",result.user.uid);
-localStorage.setItem("userEmail",result.user.email);
+        await loginSuccess(result.user);
 
-if(localStorage.getItem("storeCreated")==="true"){
+    }
 
-window.location.href="seller-dashboard.html";
+    catch(error){
 
-}else{
+        alert(error.message);
 
-window.location.href="index.html";
-
-}
-
-}catch(error){
-
-alert(error.message);
-
-}
+    }
 
 });
