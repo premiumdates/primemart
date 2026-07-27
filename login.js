@@ -18,7 +18,7 @@ loginBtn.addEventListener("click", async () => {
     );
 
     alert("Login Successful!");
-
+localStorage.setItem("currentUser", email.value);
 // User کو Login رکھو
 localStorage.setItem("currentUser", auth.currentUser.uid);
 localStorage.setItem("userEmail", auth.currentUser.email);
