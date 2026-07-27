@@ -48,3 +48,68 @@ productForm.addEventListener("submit", function (e) {
     productForm.reset();
 
 });
+function loadProducts() {
+
+    const tbody = document.querySelector("#productTable tbody");
+
+    tbody.innerHTML = "";
+
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    if (products.length === 0) {
+
+        tbody.innerHTML = `
+        <tr>
+            <td colspan="6">No Products Yet</td>
+        </tr>
+        `;
+
+        return;
+
+    }
+
+    products.forEach((product, index) => {
+
+        tbody.innerHTML += `
+        <tr>
+
+            <td>${product.name}</td>
+
+            <td>${product.category}</td>
+
+            <td>${product.price}</td>
+
+            <td>${product.discount}</td>
+
+            <td>${product.stock}</td>
+
+            <td>
+
+                <button onclick="deleteProduct(${index})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+}
+
+function deleteProduct(index) {
+
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    products.splice(index,1);
+
+    localStorage.setItem("products", JSON.stringify(products));
+
+    loadProducts();
+
+}
+
+loadProducts();
