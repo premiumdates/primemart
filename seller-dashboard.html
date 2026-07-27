@@ -1,16 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Dashboard - PrimeMart</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Seller Dashboard - PrimeMart</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="seller-dashboard.css">
+
 </head>
+
 <body>
 
-<h1>Seller Dashboard</h1>
+<header class="seller-header">
 
-<p>Welcome Seller!</p>
+<div class="logo">
+<h2>🛍 PrimeMart Seller</h2>
+</div>
+
+<div class="header-right">
+
+<span id="storeName">My Store</span>
+
+<button id="logoutBtn">Logout</button>
+
+</div>
+
+</header>
+
+
+<div class="dashboard">
+
+<aside class="sidebar">
+
+<h3>Menu</h3>
+
+<ul>
+
+<li>🏠 Dashboard</li>
+
+<li>➕ Add Product</li>
+
+<li>📦 My Products</li>
+
+<li>🛒 Orders</li>
+
+<li>💰 Earnings</li>
+
+<li>⭐ Reviews</li>
+
+<li>⚙ Settings</li>
+
+</ul>
+
+</aside>
+
+
+
+<main class="content">
+
+<h1>Welcome Seller 👋</h1>
+
+<p>Manage your store easily.</p>
+
+
+<div class="cards">
+
+<div class="card">
+
+<h2>0</h2>
+
+<p>Total Products</p>
+
+</div>
+
+<div class="card">
+
+<h2>0</h2>
+
+<p>Total Orders</p>
+
+</div>
+
+<div class="card">
+
+<h2>Rs.0</h2>
+
+<p>Total Earnings</p>
+
+</div>
+
+<div class="card">
+
+<h2>0</h2>
+
+<p>Reviews</p>
+
+</div>
+
+</div>
+
+
+
+<section class="product-section">
+
+<h2>Add New Product</h2>
+
+<form id="productForm">
+
+<input type="text" placeholder="Product Name" required>
+
+<input type="text" placeholder="Category" required>
+
+<input type="number" placeholder="Price" required>
+
+<input type="number" placeholder="Discount Price">
+
+<input type="number" placeholder="Stock Quantity">
+
+<textarea placeholder="Product Description"></textarea>
+
+<input type="file">
+
+<button type="submit">
+
+Save Product
+
+</button>
+
+</form>
+
+</section>
+
+
+
+<section>
+
+<h2>My Products</h2>
+
+<table>
+
+<tr>
+
+<th>Image</th>
+
+<th>Name</th>
+
+<th>Price</th>
+
+<th>Stock</th>
+
+<th>Action</th>
+
+</tr>
+
+<tr>
+
+<td>📷</td>
+
+<td>No Products Yet</td>
+
+<td>-</td>
+
+<td>-</td>
+
+<td>-</td>
+
+</tr>
+
+</table>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="seller-dashboard.js"></script>
 
 </body>
 </html>
