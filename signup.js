@@ -1,47 +1,38 @@
-import { auth } from "./firebase-config.js";
+import { auth, firestore } from "./firebase-config.js";
 
 import {
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+import {
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Form Fields
+const fullName = document.getElementById("name");
 const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const country = document.getElementById("country");
+const province = document.getElementById("province");
+const division = document.getElementById("division");
+const district = document.getElementById("district");
+const tehsil = document.getElementById("tehsil");
+const city = document.getElementById("city");
+const postalCode = document.getElementById("postalCode");
+const address = document.getElementById("address");
+
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirmPassword");
+
 const signupBtn = document.getElementById("signupBtn");
 const googleSignupBtn = document.getElementById("googleSignupBtn");
 
-const togglePassword = document.getElementById("togglePassword");
-const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
-
-// Show / Hide Password
-togglePassword.onclick = () => {
-
-    password.type =
-        password.type === "password" ? "text" : "password";
-
-};
-
-toggleConfirmPassword.onclick = () => {
-
-    confirmPassword.type =
-        confirmPassword.type === "password" ? "text" : "password";
-
-};
-
 // Email Signup
 signupBtn.addEventListener("click", async () => {
-
-    if (email.value.trim() === "") {
-        alert("Please enter your Email.");
-        return;
-    }
-
-    if (password.value.length < 6) {
-        alert("Password must be at least 6 characters.");
-        return;
-    }
 
     if (password.value !== confirmPassword.value) {
         alert("Passwords do not match.");
@@ -59,14 +50,53 @@ signupBtn.addEventListener("click", async () => {
 
         const user = userCredential.user;
 
+        await setDoc(doc(firestore, "users", user.uid), {
+
+            uid: user.uid,
+
+            fullName: fullName.value,
+
+            email: email.value,
+
+            phone: phone.value,
+
+            country: country.value,
+
+            province: province.value,
+
+            division: division.value,
+
+            district: district.value,
+
+            tehsil: tehsil.value,
+
+            city: city.value,
+
+            postalCode: postalCode.value,
+
+            address: address.value,
+
+            role: "buyer",
+
+            storeCreated: false,
+
+            status: "active",
+
+            profileImage: "",
+
+            createdAt: serverTimestamp()
+
+        });
+
         localStorage.setItem("currentUser", user.uid);
-        localStorage.setItem("userEmail", user.email);
 
         alert("Account Created Successfully!");
 
         window.location.href = "choose-account.html";
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         alert(error.message);
 
@@ -75,23 +105,62 @@ signupBtn.addEventListener("click", async () => {
 });
 
 // Google Signup
+
 const provider = new GoogleAuthProvider();
 
 googleSignupBtn.addEventListener("click", async () => {
 
     try {
 
-        const result =
-            await signInWithPopup(auth, provider);
+        const result = await signInWithPopup(auth, provider);
 
-        localStorage.setItem("currentUser", result.user.uid);
-        localStorage.setItem("userEmail", result.user.email);
+        const user = result.user;
 
-        alert("Welcome " + result.user.displayName);
+        await setDoc(doc(firestore, "users", user.uid), {
+
+            uid: user.uid,
+
+            fullName: user.displayName,
+
+            email: user.email,
+
+            phone: "",
+
+            country: "",
+
+            province: "",
+
+            division: "",
+
+            district: "",
+
+            tehsil: "",
+
+            city: "",
+
+            postalCode: "",
+
+            address: "",
+
+            role: "buyer",
+
+            storeCreated: false,
+
+            status: "active",
+
+            profileImage: user.photoURL,
+
+            createdAt: serverTimestamp()
+
+        });
+
+        localStorage.setItem("currentUser", user.uid);
 
         window.location.href = "choose-account.html";
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         alert(error.message);
 
