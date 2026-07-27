@@ -18,23 +18,38 @@
 
 <input type="text" id="searchBox" class="search" placeholder="Search Products, Stores, Categories...">
 
-<nav>
+<nav class="main-nav">
 
-<a href="index.html">Home</a>
-<a href="#">Categories</a>
-<a href="products.html">Products</a>
-<a href="support.html">Support</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="login.html">Login</a> 
-<a href="signup.html">Sign Up</a>
-<div id="profileArea" style="display:none;">
-    <a href="profile.html">👤 My Profile</a>
-</div>
-<a href="cart.html">Cart 🛒</a>
+    <a href="index.html">Home</a>
+    <a href="#">Categories</a>
+    <a href="products.html">Products</a>
+    <a href="support.html">Support</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+
+    <div class="right-menu">
+
+        <div id="guestButtons">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="signup.html" class="signup-btn">Sign Up</a>
+        </div>
+
+        <div id="userMenu" style="display:none;">
+
+            <a href="cart.html" class="cart-btn">
+                🛒
+            </a>
+
+            <a href="profile.html" class="profile-btn">
+                👤
+            </a>
+
+        </div>
+
+    </div>
 
 </nav>
-
+  
 </header>
 <section class="hero">
 
