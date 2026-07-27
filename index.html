@@ -10,7 +10,7 @@
 
 <body>
 <header class="header">
-
+<div class="header-right" id="headerRight"></div>
 <div class="logo">
   <img src="logo.png" alt="PrimeMart Logo">
 <h1>PrimeMart</h1>
@@ -218,10 +218,21 @@ Buy & Sell Anything Online
 const currentUser = localStorage.getItem("currentUser");
 
 if (currentUser) {
-    document.querySelector('a[href="login.html"]').style.display = "none";
-    document.querySelector('a[href="signup.html"]').style.display = "none";
 
-    document.getElementById("profileArea").style.display = "inline-block";
+    const guestButtons = document.getElementById("guestButtons");
+    const userMenu = document.getElementById("userMenu");
+
+    if (guestButtons) guestButtons.style.display = "none";
+    if (userMenu) userMenu.style.display = "flex";
+
+} else {
+
+    const guestButtons = document.getElementById("guestButtons");
+    const userMenu = document.getElementById("userMenu");
+
+    if (guestButtons) guestButtons.style.display = "flex";
+    if (userMenu) userMenu.style.display = "none";
+
 }
 <script type="module" src="main.js"></script>
 </script>
