@@ -21,7 +21,7 @@ signupBtn.addEventListener("click", async () => {
     );
 
    alert("Account Created Successfully!");
-
+localStorage.setItem("currentUser", email.value);
 // User کو Login رکھو
 localStorage.setItem("currentUser", auth.currentUser.uid);
 localStorage.setItem("userEmail", auth.currentUser.email);
