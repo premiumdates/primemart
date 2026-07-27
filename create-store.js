@@ -9,10 +9,13 @@ const storeNameStatus = document.getElementById("storeNameStatus");
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (!auth.currentUser) {
-        alert("Please login first.");
-        return;
-    }
+    const currentUser = localStorage.getItem("currentUser");
+
+if (!currentUser) {
+    alert("Please login first.");
+    window.location.href = "login.html";
+    return;
+}
 
     localStorage.setItem("storeName", storeName.value);
 
