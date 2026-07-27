@@ -83,15 +83,21 @@ function loadProducts() {
 
             <td>${product.stock}</td>
 
-            <td>
+<td>
 
-                <button onclick="deleteProduct(${index})">
+<button onclick="editProduct(${index})">
 
-                    Delete
+Edit
 
-                </button>
+</button>
 
-            </td>
+<button onclick="deleteProduct(${index})">
+
+Delete
+
+</button>
+
+</td>
 
         </tr>
         `;
@@ -111,5 +117,31 @@ function deleteProduct(index) {
     loadProducts();
 
 }
+function editProduct(index){
 
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+let product = products[index];
+
+const inputs = document.querySelectorAll("#productForm input, #productForm textarea");
+
+inputs[0].value = product.name;
+
+inputs[1].value = product.category;
+
+inputs[2].value = product.price;
+
+inputs[3].value = product.discount;
+
+inputs[4].value = product.stock;
+
+inputs[5].value = product.description;
+
+products.splice(index,1);
+
+localStorage.setItem("products", JSON.stringify(products));
+
+loadProducts();
+
+}
 loadProducts();
