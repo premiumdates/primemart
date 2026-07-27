@@ -1,53 +1,100 @@
 import { auth } from "./firebase-config.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirmPassword");
 const signupBtn = document.getElementById("signupBtn");
+const googleSignupBtn = document.getElementById("googleSignupBtn");
 
+const togglePassword = document.getElementById("togglePassword");
+const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+
+// Show / Hide Password
+togglePassword.onclick = () => {
+
+    password.type =
+        password.type === "password" ? "text" : "password";
+
+};
+
+toggleConfirmPassword.onclick = () => {
+
+    confirmPassword.type =
+        confirmPassword.type === "password" ? "text" : "password";
+
+};
+
+// Email Signup
 signupBtn.addEventListener("click", async () => {
 
-  if (password.value !== confirmPassword.value) {
-    alert("Passwords do not match!");
-    return;
-  }
+    if (email.value.trim() === "") {
+        alert("Please enter your Email.");
+        return;
+    }
 
-  try {
-    await createUserWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    );
+    if (password.value.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+    }
 
-   alert("Account Created Successfully!");
-localStorage.setItem("currentUser", email.value);
-// User کو Login رکھو
-localStorage.setItem("currentUser", auth.currentUser.uid);
-localStorage.setItem("userEmail", auth.currentUser.email);
+    if (password.value !== confirmPassword.value) {
+        alert("Passwords do not match.");
+        return;
+    }
 
-// اگلا صفحہ
-window.location.href = "choose-account.html";
+    try {
 
-  } catch (error) {
-    alert(error.message);
-  }
+        const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email.value,
+                password.value
+            );
+
+        const user = userCredential.user;
+
+        localStorage.setItem("currentUser", user.uid);
+        localStorage.setItem("userEmail", user.email);
+
+        alert("Account Created Successfully!");
+
+        window.location.href = "choose-account.html";
+
+    } catch (error) {
+
+        alert(error.message);
+
+    }
 
 });
 
-import {
-  GoogleAuthProvider,
-  signInWithPopup
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+// Google Signup
 const provider = new GoogleAuthProvider();
 
-document.getElementById("googleSignupBtn").addEventListener("click", async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    alert("Welcome " + result.user.displayName);
-    window.location.href = "choose-account.html";
-  } catch (error) {
-    alert(error.message);
-  }
+googleSignupBtn.addEventListener("click", async () => {
+
+    try {
+
+        const result =
+            await signInWithPopup(auth, provider);
+
+        localStorage.setItem("currentUser", result.user.uid);
+        localStorage.setItem("userEmail", result.user.email);
+
+        alert("Welcome " + result.user.displayName);
+
+        window.location.href = "choose-account.html";
+
+    } catch (error) {
+
+        alert(error.message);
+
+    }
+
 });
