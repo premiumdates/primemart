@@ -21,7 +21,13 @@ signupBtn.addEventListener("click", async () => {
     );
 
    alert("Account Created Successfully!");
-window.location.href = "choose-account.html"; 
+
+// User کو Login رکھو
+localStorage.setItem("currentUser", auth.currentUser.uid);
+localStorage.setItem("userEmail", auth.currentUser.email);
+
+// اگلا صفحہ
+window.location.href = "choose-account.html";
 
   } catch (error) {
     alert(error.message);
