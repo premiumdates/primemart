@@ -9,6 +9,7 @@ document.getElementById("sellerBtn").addEventListener("click", () => {
     const storeName = localStorage.getItem("storeName");
 
     if (storeName) {
+        localStorage.setItem("userRole", "seller");
         window.location.href = "seller-dashboard.html";
     } else {
         window.location.href = "create-store.html";
