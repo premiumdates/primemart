@@ -1,9 +1,9 @@
 import { auth } from "./firebase-config.js";
 
 import {
-    GoogleAuthProvider,
-    signInWithPopup,
-    signInWithEmailAndPassword
+GoogleAuthProvider,
+signInWithPopup,
+signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const email = document.getElementById("email");
@@ -11,54 +11,73 @@ const password = document.getElementById("password");
 const loginBtn = document.getElementById("loginBtn");
 const googleLoginBtn = document.getElementById("googleLoginBtn");
 
+// =====================
+// Login
+// =====================
+
 loginBtn.addEventListener("click", async () => {
 
-    try {
+try{
 
-        const userCredential = await signInWithEmailAndPassword(
+const userCredential = await signInWithEmailAndPassword(
+auth,
+email.value,
+password.value
+);
 
-            auth,
-            email.value,
-            password.value
+const user = userCredential.user;
 
-        );
+localStorage.setItem("currentUser", user.uid);
+localStorage.setItem("userEmail", user.email);
 
-        const user = userCredential.user;
+// اگر Store بنا ہوا ہے
+if(localStorage.getItem("storeCreated")==="true"){
 
-        localStorage.setItem("currentUser", user.uid);
-        localStorage.setItem("userEmail", user.email);
+window.location.href="seller-dashboard.html";
 
-        alert("Login Successful!");
+}else{
 
-        window.location.href = "choose-account.html";
+window.location.href="index.html";
 
-    } catch (error) {
+}
 
-        alert(error.message);
+}catch(error){
 
-    }
+alert(error.message);
+
+}
 
 });
 
+// =====================
+// Google Login
+// =====================
+
 const provider = new GoogleAuthProvider();
 
-googleLoginBtn.addEventListener("click", async () => {
+googleLoginBtn.addEventListener("click", async ()=>{
 
-    try {
+try{
 
-        const result = await signInWithPopup(auth, provider);
+const result = await signInWithPopup(auth,provider);
 
-        localStorage.setItem("currentUser", result.user.uid);
-        localStorage.setItem("userEmail", result.user.email);
+localStorage.setItem("currentUser",result.user.uid);
+localStorage.setItem("userEmail",result.user.email);
 
-        alert("Welcome " + result.user.displayName);
+if(localStorage.getItem("storeCreated")==="true"){
 
-        window.location.href = "choose-account.html";
+window.location.href="seller-dashboard.html";
 
-    } catch (error) {
+}else{
 
-        alert(error.message);
+window.location.href="index.html";
 
-    }
+}
+
+}catch(error){
+
+alert(error.message);
+
+}
 
 });
