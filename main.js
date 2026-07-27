@@ -1,4 +1,15 @@
 import { auth } from "./firebase-config.js";
+    const role = localStorage.getItem("userRole");
+
+    if (dashboardLink) {
+        if (role === "seller") {
+            dashboardLink.href = "create-store.html";
+            dashboardLink.textContent = "Create Store";
+        } else {
+            dashboardLink.href = "choose-account.html";
+            dashboardLink.textContent = "Become a Seller";
+        }
+    }
 import {
     onAuthStateChanged,
     signOut
