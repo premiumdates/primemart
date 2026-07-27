@@ -1,86 +1,228 @@
-// Store Name دکھائیں
-const storeName = localStorage.getItem("storeName");
+// =====================================
+// PrimeMart Seller Dashboard
+// Part 1
+// =====================================
 
-if (storeName) {
-    document.getElementById("storeName").textContent = storeName;
-} else {
-    document.getElementById("storeName").textContent = "My Store";
-}
+const productForm = document.getElementById("productForm");
 
-// Logout Button
+const tableBody = document.querySelector("#productTable tbody");
+
+const totalProducts = document.getElementById("totalProducts");
+
+const totalOrders = document.getElementById("totalOrders");
+
+const totalEarnings = document.getElementById("totalEarnings");
+
+const totalReviews = document.getElementById("totalReviews");
+
 const logoutBtn = document.getElementById("logoutBtn");
 
-logoutBtn.addEventListener("click", () => {
+const storeTitle = document.getElementById("storeTitle");
 
-    localStorage.removeItem("currentUser");
+// ---------------------------
+// Store Name
+// ---------------------------
 
-    window.location.href = "login.html";
+const savedStore = localStorage.getItem("storeName");
 
-});
-// Product Form
-const productForm = document.getElementById("productForm");
+if (savedStore && storeTitle) {
+
+    storeTitle.textContent = savedStore;
+
+}
+
+// ---------------------------
+// Logout
+// ---------------------------
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", () => {
+
+        localStorage.removeItem("currentUser");
+
+        localStorage.removeItem("userRole");
+
+        window.location.href = "login.html";
+
+    });
+
+}
+
+// ---------------------------
+// Products
+// ---------------------------
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+// ---------------------------
+// Save Products
+// ---------------------------
+
+function saveProducts() {
+
+    localStorage.setItem(
+
+        "products",
+
+        JSON.stringify(products)
+
+    );
+
+}
+
+// ---------------------------
+// Dashboard Cards
+// ---------------------------
+
+function updateDashboardCards() {
+
+    if (totalProducts)
+
+        totalProducts.textContent = products.length;
+
+    if (totalOrders)
+
+        totalOrders.textContent = "0";
+
+    if (totalEarnings)
+
+        totalEarnings.textContent = "Rs.0";
+
+    if (totalReviews)
+
+        totalReviews.textContent = "0";
+
+}
+// =====================================
+// Product Form Submit
+// =====================================
+
+let editIndex = -1;
+
+if (productForm) {
 
 productForm.addEventListener("submit", function (e) {
 
-    e.preventDefault();
+e.preventDefault();
 
-    const inputs = productForm.querySelectorAll("input, textarea");
+const product = {
 
-    const product = {
+name: document.getElementById("productName").value,
 
-        name: inputs[0].value,
-        category: inputs[1].value,
-        price: inputs[2].value,
-        discount: inputs[3].value,
-        stock: inputs[4].value,
-        description: inputs[5].value
+category: document.getElementById("productCategory").value,
 
-    };
+price: document.getElementById("productPrice").value,
 
-    let products = JSON.parse(localStorage.getItem("products")) || [];
+discount: document.getElementById("discountPrice").value,
 
-    products.push(product);
+stock: document.getElementById("productStock").value,
 
-    localStorage.setItem("products", JSON.stringify(products));
+brand: document.getElementById("brand").value,
 
-    alert("Product Saved Successfully!");
-    productForm.reset();
-    loadProducts();
+description: document.getElementById("description").value,
+
+image: document.getElementById("productImages").files[0]
+? document.getElementById("productImages").files[0].name
+: "",
+
+video: document.getElementById("productVideo").files[0]
+? document.getElementById("productVideo").files[0].name
+: ""
+
+};
+
+if (editIndex === -1) {
+
+products.push(product);
+
+} else {
+
+products[editIndex] = product;
+
+editIndex = -1;
+
+}
+
+saveProducts();
+
+renderProducts();
+
+updateDashboardCards();
+
+productForm.reset();
+
+alert("✅ Product Saved Successfully!");
+
 });
-function loadProducts() {
 
-    const tbody = document.querySelector("#productTable tbody");
+}
 
-    tbody.innerHTML = "";
+// =====================================
+// Render Products
+// =====================================
 
-    let products = JSON.parse(localStorage.getItem("products")) || [];
+function renderProducts() {
 
-    if (products.length === 0) {
+if (!tableBody) return;
 
-        tbody.innerHTML = `
-        <tr>
-            <td colspan="6">No Products Yet</td>
-        </tr>
-        `;
+tableBody.innerHTML = "";
 
-        return;
+if (products.length === 0) {
 
-    }
+tableBody.innerHTML = `
 
-    products.forEach((product, index) => {
+<tr>
 
-        tbody.innerHTML += `
-        <tr>
+<td colspan="6">
 
-            <td>${product.name}</td>
+No Products Yet
 
-            <td>${product.category}</td>
+</td>
 
-            <td>${product.price}</td>
+</tr>
 
-            <td>${product.discount}</td>
+`;
 
-            <td>${product.stock}</td>
+return;
+
+}
+
+products.forEach((product, index) => {
+
+tableBody.innerHTML += `
+
+<tr>
+
+<td>
+
+${product.image || "📷"}
+
+</td>
+
+<td>
+
+${product.name}
+
+</td>
+
+<td>
+
+${product.category}
+
+</td>
+
+<td>
+
+Rs.${product.price}
+
+</td>
+
+<td>
+
+${product.stock}
+
+</td>
 
 <td>
 
@@ -98,49 +240,78 @@ Delete
 
 </td>
 
-        </tr>
-        `;
+</tr>
 
-    });
+`;
 
-}
-
-function deleteProduct(index) {
-
-    let products = JSON.parse(localStorage.getItem("products")) || [];
-
-    products.splice(index,1);
-
-    localStorage.setItem("products", JSON.stringify(products));
-
-    loadProducts();
+});
 
 }
-function editProduct(index){
+// =====================================
+// Delete Product
+// =====================================
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+window.deleteProduct = function(index){
 
-let product = products[index];
-
-const inputs = document.querySelectorAll("#productForm input, #productForm textarea");
-
-inputs[0].value = product.name;
-
-inputs[1].value = product.category;
-
-inputs[2].value = product.price;
-
-inputs[3].value = product.discount;
-
-inputs[4].value = product.stock;
-
-inputs[5].value = product.description;
+if(confirm("Are you sure you want to delete this product?")){
 
 products.splice(index,1);
 
-localStorage.setItem("products", JSON.stringify(products));
+saveProducts();
 
-loadProducts();
+renderProducts();
+
+updateDashboardCards();
 
 }
-loadProducts();
+
+};
+
+// =====================================
+// Edit Product
+// =====================================
+
+window.editProduct = function(index){
+
+const product = products[index];
+
+editIndex = index;
+
+document.getElementById("productName").value = product.name;
+
+document.getElementById("productCategory").value = product.category;
+
+document.getElementById("productPrice").value = product.price;
+
+document.getElementById("discountPrice").value = product.discount;
+
+document.getElementById("productStock").value = product.stock;
+
+document.getElementById("brand").value = product.brand;
+
+document.getElementById("description").value = product.description;
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+};
+
+// =====================================
+// Initial Load
+// =====================================
+
+renderProducts();
+
+updateDashboardCards();
+
+// =====================================
+// Future Ready
+// Firebase میں صرف یہی Functions
+// بعد میں تبدیل ہوں گی
+// باقی Dashboard دوبارہ نہیں بنانا پڑے گا
+// =====================================
