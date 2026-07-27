@@ -18,7 +18,12 @@ loginBtn.addEventListener("click", async () => {
     );
 
     alert("Login Successful!");
-    window.location.href = "choose-account.html";
+
+// User کو Login رکھو
+localStorage.setItem("currentUser", auth.currentUser.uid);
+localStorage.setItem("userEmail", auth.currentUser.email);
+
+window.location.href = "choose-account.html";
 
   } catch (error) {
     alert(error.message);
