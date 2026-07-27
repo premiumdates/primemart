@@ -236,3 +236,28 @@ nav{
 }
 
 }
+/* Login اور Signup Buttons */
+
+.login-btn,
+.signup-btn{
+    background:#0f7a2f;
+    color:white !important;
+    border-radius:30px;
+    padding:10px 18px !important;
+}
+
+.login-btn:hover,
+.signup-btn:hover{
+    background:#0b5e24;
+}
+
+/* My Profile Button */
+
+#profileArea a{
+    background:#2563eb;
+    color:white;
+    padding:10px 18px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
