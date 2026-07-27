@@ -52,10 +52,27 @@
         id="storeName"
         placeholder="Enter Store Name"
         required>
+    <p id="storeNameStatus"></p>
 
+<hr>
         <label>Store Description</label>
 
         <textarea
+         <label>Payment Method</label>
+
+<select id="paymentMethod" required>
+<option value="">Select Payment Method</option>
+<option>JazzCash</option>
+<option>EasyPaisa</option>
+<option>Bank Account</option>
+        </select> 
+            <label>Payment Number / Bank Account</label>
+
+<input
+type="text"
+id="paymentNumber"
+placeholder="Enter JazzCash / EasyPaisa / Bank Account Number"
+required>
         id="storeDescription"
         rows="4"
         placeholder="Write a short description about your store"></textarea>
