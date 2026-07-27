@@ -44,9 +44,8 @@ productForm.addEventListener("submit", function (e) {
     localStorage.setItem("products", JSON.stringify(products));
 
     alert("Product Saved Successfully!");
-
     productForm.reset();
-
+    loadProducts();
 });
 function loadProducts() {
 
