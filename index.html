@@ -215,25 +215,25 @@ Buy & Sell Anything Online
 
 <script src="script.js"></script>
 <script>
-const currentUser = localStorage.getItem("currentUser");
-
-if (currentUser) {
+document.addEventListener("DOMContentLoaded", () => {
 
     const guestButtons = document.getElementById("guestButtons");
     const userMenu = document.getElementById("userMenu");
 
-    if (guestButtons) guestButtons.style.display = "none";
-    if (userMenu) userMenu.style.display = "flex";
+    const currentUser = localStorage.getItem("currentUser");
 
-} else {
+    if (currentUser) {
+        if (guestButtons) guestButtons.style.display = "none";
+        if (userMenu) userMenu.style.display = "flex";
+    } else {
+        if (guestButtons) guestButtons.style.display = "flex";
+        if (userMenu) userMenu.style.display = "none";
+    }
 
-    const guestButtons = document.getElementById("guestButtons");
-    const userMenu = document.getElementById("userMenu");
+});
+</script>
 
-    if (guestButtons) guestButtons.style.display = "flex";
-    if (userMenu) userMenu.style.display = "none";
 
-}
 <script type="module" src="main.js"></script>
 </script>
 </body>
