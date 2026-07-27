@@ -1,17 +1,30 @@
-document.getElementById("buyerBtn").addEventListener("click", () => {
+const buyerBtn = document.getElementById("buyerBtn");
+const sellerBtn = document.getElementById("sellerBtn");
+
+// Buyer
+buyerBtn.addEventListener("click", () => {
+
     localStorage.setItem("userRole", "buyer");
+
     window.location.href = "index.html";
+
 });
 
-document.getElementById("sellerBtn").addEventListener("click", () => {
+// Seller
+sellerBtn.addEventListener("click", () => {
+
     localStorage.setItem("userRole", "seller");
 
-    const storeName = localStorage.getItem("storeName");
+    const storeCreated = localStorage.getItem("storeCreated");
 
-    if (storeName) {
-        localStorage.setItem("userRole", "seller");
+    if (storeCreated === "true") {
+
         window.location.href = "seller-dashboard.html";
+
     } else {
+
         window.location.href = "create-store.html";
+
     }
+
 });
