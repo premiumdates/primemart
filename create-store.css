@@ -182,3 +182,17 @@ nav a:hover{
     background:#0f7a2f;
     color:#fff;
 }
+.login-btn{
+    background:#0f7a2f;
+    color:white !important;
+}
+
+.signup-btn{
+    background:#2563eb;
+    color:white !important;
+}
+
+.login-btn:hover,
+.signup-btn:hover{
+    transform:scale(1.05);
+}
