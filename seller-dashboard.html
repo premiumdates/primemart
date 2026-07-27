@@ -1,131 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Seller Dashboard - PrimeMart</title>
 
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="seller-dashboard.css">
+<link rel="stylesheet"
+href="seller-dashboard.css">
 
 </head>
 
 <body>
 
-<header class="seller-header">
+<div class="dashboard">
+
+<!-- ================= HEADER ================= -->
+
+<header class="topbar">
 
 <div class="logo">
-<h2>🛍 PrimeMart Seller</h2>
+
+<img src="logo.png" alt="Logo">
+
+<h2>PrimeMart Seller</h2>
+
 </div>
 
-<div class="header-right">
+<div class="top-right">
 
-<span id="storeName">My Store</span>
+<span id="storeTitle">
+My Store
+</span>
 
-<button id="logoutBtn">Logout</button>
+<button id="notificationBtn">
+🔔
+</button>
+
+<button id="profileBtn">
+👤
+</button>
+
+<button id="logoutBtn">
+Logout
+</button>
 
 </div>
 
 </header>
 
-
-<div class="dashboard">
+<!-- ================= SIDEBAR ================= -->
 
 <aside class="sidebar">
 
-<h3>Menu</h3>
+<h3>Seller Menu</h3>
 
 <ul>
 
-<li>🏠 Dashboard</li>
+<li class="active">
 
-<li>➕ Add Product</li>
+🏠 Dashboard
 
-<li>📦 My Products</li>
+</li>
 
-<li>🛒 Orders</li>
+<li>
 
-<li>💰 Earnings</li>
+➕ Add Product
 
-<li>⭐ Reviews</li>
+</li>
 
-<li>⚙ Settings</li>
+<li>
+
+📦 My Products
+
+</li>
+
+<li>
+
+🛒 Orders
+
+</li>
+
+<li>
+
+👥 Customers
+
+</li>
+
+<li>
+
+⭐ Reviews
+
+</li>
+
+<li>
+
+💰 Earnings
+
+</li>
+
+<li>
+
+🎟 Coupons
+
+</li>
+
+<li>
+
+📈 Analytics
+
+</li>
+
+<li>
+
+⚙ Settings
+
+</li>
 
 </ul>
 
 </aside>
 
+<!-- ================= MAIN ================= -->
 
+<main class="main-content">
 
-<main class="content">
+<h1>
 
-<h1>Welcome Seller 👋</h1>
+Welcome Seller 👋
 
-<p>Manage your store easily.</p>
+</h1>
 
+<p>
+
+Manage your complete business from one place.
+
+</p>
+
+<!-- Dashboard Cards -->
 
 <div class="cards">
 
 <div class="card">
 
-<h2>0</h2>
+<h2 id="totalProducts">
 
-<p>Total Products</p>
+0
 
-</div>
+</h2>
 
-<div class="card">
+<p>
 
-<h2>0</h2>
+Products
 
-<p>Total Orders</p>
-
-</div>
-
-<div class="card">
-
-<h2>Rs.0</h2>
-
-<p>Total Earnings</p>
+</p>
 
 </div>
 
 <div class="card">
 
-<h2>0</h2>
+<h2 id="totalOrders">
 
-<p>Reviews</p>
+0
+
+</h2>
+
+<p>
+
+Orders
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="totalSales">
+
+Rs.0
+
+</h2>
+
+<p>
+
+Sales
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="totalReviews">
+
+0
+
+</h2>
+
+<p>
+
+Reviews
+
+</p>
 
 </div>
 
 </div>
+<!-- ================= ADD PRODUCT ================= -->
 
-
-
-<section class="product-section">
+<section class="product-form">
 
 <h2>Add New Product</h2>
 
 <form id="productForm">
 
-<input type="text" placeholder="Product Name" required>
+<input type="text" id="productName"
+placeholder="Product Name" required>
 
-<input type="text" placeholder="Category" required>
+<select id="productCategory" required>
 
-<input type="number" placeholder="Price" required>
+<option value="">Select Category</option>
 
-<input type="number" placeholder="Discount Price">
+<option>Electronics</option>
+<option>Mobiles</option>
+<option>Laptops</option>
+<option>Computers</option>
+<option>Accessories</option>
+<option>Men Fashion</option>
+<option>Women Fashion</option>
+<option>Kids Fashion</option>
+<option>Shoes</option>
+<option>Watches</option>
+<option>Beauty</option>
+<option>Health</option>
+<option>Sports</option>
+<option>Books</option>
+<option>Home & Living</option>
+<option>Furniture</option>
+<option>Kitchen</option>
+<option>Groceries</option>
+<option>Dry Fruits</option>
+<option>Dates</option>
+<option>Honey</option>
+<option>Tea</option>
+<option>Coffee</option>
+<option>Automotive</option>
+<option>Motorcycle Parts</option>
+<option>Tools</option>
+<option>Pet Supplies</option>
+<option>Toys</option>
+<option>Baby Products</option>
+<option>Office Supplies</option>
 
-<input type="number" placeholder="Stock Quantity">
+</select>
 
-<textarea placeholder="Product Description"></textarea>
+<input type="number"
+id="productPrice"
+placeholder="Price">
 
-<input type="file">
+<input type="number"
+id="discountPrice"
+placeholder="Discount Price">
 
-<button type="submit">
+<input type="number"
+id="productStock"
+placeholder="Stock Quantity">
 
-Save Product
+<input type="text"
+id="brand"
+placeholder="Brand">
+
+<textarea
+id="description"
+placeholder="Product Description">
+</textarea>
+
+<label>
+
+Product Images
+
+</label>
+
+<input
+type="file"
+id="productImages"
+multiple
+accept="image/*">
+
+<label>
+
+Product Video
+
+</label>
+
+<input
+type="file"
+id="productVideo"
+accept="video/*">
+
+<button
+type="submit">
+
+Create Product
 
 </button>
 
@@ -133,19 +313,27 @@ Save Product
 
 </section>
 
+<!-- ================= PRODUCT TABLE ================= -->
 
+<section class="products">
 
-<section>
+<h2>
 
-<h2>My Products</h2>
+My Products
 
-<table>
+</h2>
+
+<table id="productTable">
+
+<thead>
 
 <tr>
 
 <th>Image</th>
 
 <th>Name</th>
+
+<th>Category</th>
 
 <th>Price</th>
 
@@ -155,24 +343,25 @@ Save Product
 
 </tr>
 
+</thead>
+
+<tbody>
+
 <tr>
 
-<td>📷</td>
+<td colspan="6">
 
-<td>No Products Yet</td>
+No Products Yet
 
-<td>-</td>
-
-<td>-</td>
-
-<td>-</td>
+</td>
 
 </tr>
+
+</tbody>
 
 </table>
 
 </section>
-
 </main>
 
 </div>
@@ -180,4 +369,5 @@ Save Product
 <script src="seller-dashboard.js"></script>
 
 </body>
+
 </html>
