@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PrimeMart Sign Up</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -12,8 +14,8 @@
 <div class="login-box">
 
 <div class="brand">
-    <img src="logo.png" alt="PrimeMart Logo" class="logo">
-    <h1>PrimeMart</h1>
+<img src="logo.png" alt="PrimeMart Logo" class="logo">
+<h1>PrimeMart</h1>
 </div>
 
 <h2>Create Account</h2>
@@ -21,7 +23,8 @@
 <input type="text" id="name" placeholder="Full Name">
 
 <input type="email" id="email" placeholder="Email">
- <input type="text" id="phone" placeholder="Phone Number">
+
+<input type="text" id="phone" placeholder="Phone Number">
 
 <input type="text" id="country" placeholder="Country">
 
@@ -38,21 +41,33 @@
 <input type="text" id="postalCode" placeholder="Postal Code">
 
 <input type="text" id="address" placeholder="Enter Post Office Name">
-<input type="password" id="password" placeholder="Password">
 
+<div class="password-box">
+<input type="password" id="password" placeholder="Password">
+<span id="togglePassword">👁</span>
+</div>
+
+<div class="password-box">
 <input type="password" id="confirmPassword" placeholder="Confirm Password">
+<span id="toggleConfirmPassword">👁</span>
+</div>
 
 <button id="signupBtn">Create Account</button>
+
 <hr>
-    
+
 <button id="googleSignupBtn">
-    Continue with Google
+Continue with Google
 </button>
-<p>Already have an account?
+
+<p>
+Already have an account?
 <a href="login.html">Login</a>
 </p>
 
 </div>
+
 <script type="module" src="signup.js"></script>
+
 </body>
 </html>
