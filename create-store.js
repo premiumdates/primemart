@@ -14,6 +14,8 @@ form.addEventListener("submit", async (e) => {
         return;
     }
 
-    alert("Store Created Successfully!");
-    window.location.href = "seller-dashboard.html";
+    localStorage.setItem("storeName", storeName.value);
+
+alert("Store Created Successfully!");
+window.location.href = "seller-dashboard.html";
 });
