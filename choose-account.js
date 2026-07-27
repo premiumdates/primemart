@@ -5,5 +5,12 @@ document.getElementById("buyerBtn").addEventListener("click", () => {
 
 document.getElementById("sellerBtn").addEventListener("click", () => {
     localStorage.setItem("userRole", "seller");
-    window.location.href = "create-store.html";
+
+    const storeName = localStorage.getItem("storeName");
+
+    if (storeName) {
+        window.location.href = "seller-dashboard.html";
+    } else {
+        window.location.href = "create-store.html";
+    }
 });
