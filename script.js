@@ -1,34 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-const search = document.getElementById("searchBox");
+    // ===== Search =====
+    const search = document.getElementById("searchBox");
+    const cards = document.querySelectorAll(".card");
 
-const cards = document.querySelectorAll(".card");
+    if (search) {
 
-search.addEventListener("keyup", function () {
+        search.addEventListener("keyup", () => {
 
-let value = search.value.toLowerCase();
+            const value = search.value.toLowerCase();
 
-cards.forEach((card)=>{
+            cards.forEach((card) => {
 
-if(card.innerText.toLowerCase().includes(value)){
+                if (card.innerText.toLowerCase().includes(value)) {
 
-card.style.display="block";
+                    card.style.display = "block";
 
-}else{
+                } else {
 
-card.style.display="none";
+                    card.style.display = "none";
 
-}
+                }
+
+            });
+
+        });
+
+    }
+
+    // ===== Open Store =====
+    const openStoreBtn = document.getElementById("openStoreBtn");
+
+    if (openStoreBtn) {
+
+        openStoreBtn.addEventListener("click", () => {
+
+            window.location.href = "signup.html";
+
+        });
+
+    }
 
 });
-
-});
-
-});
-const openStoreBtn = document.getElementById("openStoreBtn");
-
-if (openStoreBtn) {
-    openStoreBtn.addEventListener("click", function () {
-        window.location.href = "signup.html";
-    });
-}
