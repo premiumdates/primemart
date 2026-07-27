@@ -182,6 +182,15 @@ Buy & Sell Anything Online
 <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
 
 <script src="script.js"></script>
+<script>
+const currentUser = localStorage.getItem("currentUser");
 
+if (currentUser) {
+    document.querySelector('a[href="login.html"]').style.display = "none";
+    document.querySelector('a[href="signup.html"]').style.display = "none";
+
+    document.getElementById("profileArea").style.display = "inline-block";
+}
+</script>
 </body>
 </html>
