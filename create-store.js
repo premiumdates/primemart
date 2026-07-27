@@ -2,18 +2,11 @@ import { auth } from "./firebase-config.js";
 
 const form = document.getElementById("createStoreForm");
 
-const storeName = document.getElementById("storeName");
-
-const paymentMethod = document.getElementById("paymentMethod");
-
-const paymentNumber = document.getElementById("paymentNumber");
-
-const storeNameStatus = document.getElementById("storeNameStatus");
-
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", function (e) {
 
     e.preventDefault();
 
+    // Login Check
     const currentUser = localStorage.getItem("currentUser");
 
     if (!currentUser) {
@@ -26,7 +19,20 @@ form.addEventListener("submit", (e) => {
 
     }
 
-    if (storeName.value.trim() === "") {
+    // Form Values
+    const storeName = document.getElementById("storeName").value.trim();
+
+    const storeDescription = document.getElementById("storeDescription").value.trim();
+
+    const paymentMethod = document.getElementById("paymentMethod").value;
+
+    const paymentNumber = document.getElementById("paymentNumber").value.trim();
+
+    const storeCategory = document.getElementById("storeCategory").value;
+
+    // Validation
+
+    if (storeName === "") {
 
         alert("Please enter Store Name.");
 
@@ -34,7 +40,7 @@ form.addEventListener("submit", (e) => {
 
     }
 
-    if (paymentMethod.value === "") {
+    if (paymentMethod === "") {
 
         alert("Please select Payment Method.");
 
@@ -42,7 +48,7 @@ form.addEventListener("submit", (e) => {
 
     }
 
-    if (paymentNumber.value.trim() === "") {
+    if (paymentNumber === "") {
 
         alert("Please enter Payment Number.");
 
@@ -50,11 +56,43 @@ form.addEventListener("submit", (e) => {
 
     }
 
-    // Store Data Save
-    localStorage.setItem("storeCreated", "true");
-    localStorage.setItem("storeName", storeName.value);
+    if (storeCategory === "") {
 
-    alert("Store Created Successfully!");
+        alert("Please select Store Category.");
+
+        return;
+
+    }
+
+    // Store Save
+
+    const storeData = {
+
+        owner: currentUser,
+
+        name: storeName,
+
+        description: storeDescription,
+
+        paymentMethod: paymentMethod,
+
+        paymentNumber: paymentNumber,
+
+        category: storeCategory,
+
+        createdAt: new Date().toISOString()
+
+    };
+
+    localStorage.setItem("storeCreated", "true");
+
+    localStorage.setItem("storeName", storeName);
+
+    localStorage.setItem("storeData", JSON.stringify(storeData));
+
+    localStorage.setItem("userRole", "seller");
+
+    alert("🎉 Store Created Successfully!");
 
     window.location.href = "seller-dashboard.html";
 
