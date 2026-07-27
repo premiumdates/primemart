@@ -261,3 +261,40 @@ nav{
     text-decoration:none;
     font-weight:bold;
 }
+/* ===== Mobile Responsive ===== */
+
+@media (max-width:768px){
+
+.header{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+
+.search{
+    width:100%;
+}
+
+nav{
+    justify-content:center;
+}
+
+.logo img{
+    width:45px;
+    height:45px;
+}
+
+.logo h1{
+    font-size:24px;
+}
+
+.store-container{
+    width:95%;
+    margin:20px auto;
+}
+
+.store-container h1{
+    font-size:24px;
+}
+
+}
