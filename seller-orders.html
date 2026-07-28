@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Seller Orders | PrimeMart</title>
+
+<link rel="stylesheet" href="seller-orders.css">
+
+</head>
+
+<body>
+
+<div class="seller-orders-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="seller-orders-header">
+
+<div class="logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h2>PrimeMart Seller</h2>
+
+</div>
+
+<div class="header-actions">
+
+<button onclick="window.location.href='seller-dashboard.html'">
+
+📊 Dashboard
+
+</button>
+
+<button onclick="window.location.href='index.html'">
+
+🏠 Home
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<main class="seller-orders-container">
+
+<h1>
+
+📦 Seller Orders
+
+</h1>
+
+<input
+type="text"
+id="sellerOrderSearch"
+placeholder="Search Orders...">
+
+<select id="sellerStatusFilter">
+
+<option value="all">All Orders</option>
+
+<option value="Pending">Pending</option>
+
+<option value="Accepted">Accepted</option>
+
+<option value="Rejected">Rejected</option>
+
+<option value="Shipped">Shipped</option>
+
+<option value="Completed">Completed</option>
+
+</select>
+
+<div id="sellerOrdersContainer">
+
+<p>Loading Orders...</p>
+
+</div>
+<!-- ================= SUMMARY ================= -->
+
+<section class="seller-summary">
+
+<div class="summary-card">
+
+<h3>Total Orders</h3>
+
+<p id="sellerTotalOrders">0</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Pending</h3>
+
+<p id="sellerPendingOrders">0</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Completed</h3>
+
+<p id="sellerCompletedOrders">0</p>
+
+</div>
+
+</section>
+
+<!-- ================= EMPTY STATE ================= -->
+
+<section
+id="sellerEmptyOrders"
+style="display:none;">
+
+<h2>
+
+No Orders Available
+
+</h2>
+
+<p>
+
+No customer orders have been received yet.
+
+</p>
+
+<button
+onclick="window.location.href='seller-dashboard.html'">
+
+Back to Dashboard
+
+</button>
+
+</section>
+<!-- ================= ORDER DETAILS ================= -->
+
+<section id="sellerOrderDetailsSection">
+
+<h2>
+
+Order Details
+
+</h2>
+
+<div id="sellerOrderDetailsContainer">
+
+</div>
+
+</section>
+
+<!-- ================= BUYER INFO ================= -->
+
+<section class="buyer-information">
+
+<h2>
+
+Buyer Information
+
+</h2>
+
+<div id="buyerInfoContainer">
+
+</div>
+
+</section>
+
+<!-- ================= ORDER TIMELINE ================= -->
+
+<section class="seller-order-timeline">
+
+<h2>
+
+Order Status
+
+</h2>
+
+<div class="tracking-steps">
+
+<div class="step" id="sellerStepPending">
+
+Pending
+
+</div>
+
+<div class="step" id="sellerStepAccepted">
+
+Accepted
+
+</div>
+
+<div class="step" id="sellerStepShipped">
+
+Shipped
+
+</div>
+
+<div class="step" id="sellerStepCompleted">
+
+Completed
+
+</div>
+
+</div>
+
+</section>
+<!-- ================= ORDER ACTIONS ================= -->
+
+<section class="seller-order-actions">
+
+<h2>
+
+Manage Order
+
+</h2>
+
+<div class="actions-grid">
+
+<button id="acceptOrderBtn">
+
+✅ Accept Order
+
+</button>
+
+<button id="rejectOrderBtn">
+
+❌ Reject Order
+
+</button>
+
+<button id="shipOrderBtn">
+
+🚚 Mark as Shipped
+
+</button>
+
+<button id="completeOrderBtn">
+
+✔ Mark as Completed
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= ORDER NOTES ================= -->
+
+<section class="seller-order-notes">
+
+<h2>
+
+Seller Notes
+
+</h2>
+
+<textarea
+id="sellerNotes"
+placeholder="Add internal notes about this order..."></textarea>
+
+</section>
+<!-- ================= EXTRA ACTIONS ================= -->
+
+<section class="seller-extra-actions">
+
+<h2>
+
+More Actions
+
+</h2>
+
+<div class="actions-grid">
+
+<button id="printInvoiceBtn">
+
+📄 Print Invoice
+
+</button>
+
+<button id="contactBuyerBtn">
+
+💬 Contact Buyer
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="seller-orders-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+<p>
+
+Seller Panel • Secure Order Management
+
+</p>
+
+</footer>
+<!-- ================= PAGE END ================= -->
+
+</main>
+
+</div>
+
+<script type="module" src="seller-orders.js"></script>
+
+</body>
+
+</html>
