@@ -1,38 +1,47 @@
-// ==========================================
-// PrimeMart Cart
-// cart.js
-// Part 1 / 8
-// ==========================================
+// =====================================================
+// PrimeMart Commercial Marketplace
+// Cart System v2.0
+// Part 1 / 3
+// =====================================================
 
 import { auth, db } from "./firebase-config.js";
 
 import {
 collection,
-getDocs,
+query,
+where,
+onSnapshot,
 doc,
+getDoc,
 updateDoc,
-deleteDoc,
-query
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
 onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// ==========================================
+// =====================================================
+// STATE
+// =====================================================
 
 let currentUser = null;
 
-let cartProducts = [];
+let cartItems = [];
 
-// ==========================================
-// HTML Elements
-// ==========================================
+let unsubscribeCart = null;
 
-const cartItems =
+const DELIVERY_FEE = 250;
+
+// =====================================================
+// DOM
+// =====================================================
+
+const cartContainer =
 document.getElementById("cartItems");
+
+const emptyCart =
+document.getElementById("emptyCart");
 
 const totalItems =
 document.getElementById("totalItems");
@@ -40,20 +49,20 @@ document.getElementById("totalItems");
 const subtotal =
 document.getElementById("subtotal");
 
+const delivery =
+document.getElementById("deliveryCharges");
+
 const grandTotal =
 document.getElementById("grandTotal");
 
-const deliveryCharges =
-document.getElementById("deliveryCharges");
+const checkoutBtn =
+document.getElementById("checkoutBtn");
 
-const emptyCart =
-document.getElementById("emptyCart");
+// =====================================================
+// AUTH
+// =====================================================
 
-// ==========================================
-// Authentication
-// ==========================================
-
-onAuthStateChanged(auth, async(user)=>{
+onAuthStateChanged(auth,(user)=>{
 
 if(!user){
 
@@ -63,136 +72,144 @@ return;
 
 }
 
-currentUser = user;
+currentUser=user;
 
-await loadCart();
+startCartListener();
 
 });
-// ==========================================
-// PrimeMart Cart
-// Part 2 / 8
-// Load Cart From Firestore
-// ==========================================
 
-async function loadCart(){
+// =====================================================
+// LIVE CART
+// =====================================================
 
-try{
+function startCartListener(){
 
-const cartQuery = query(
+if(unsubscribeCart){
 
-collection(db,"users",currentUser.uid,"cart")
+unsubscribeCart();
+
+}
+
+const q=query(
+
+collection(db,"cart"),
+
+where("buyerId","==",currentUser.uid)
 
 );
 
-const cartSnapshot = await getDocs(cartQuery);
+unsubscribeCart=onSnapshot(
 
-cartProducts = [];
+q,
 
-for(const cartDoc of cartSnapshot.docs){
+async(snapshot)=>{
 
-const cartData = cartDoc.data();
+cartItems=[];
 
-const productRef = doc(db,"products",cartData.productId);
+for(const cartDoc of snapshot.docs){
 
-const productSnapshot = await getDocs(
-query(collection(db,"products"))
+const cart=cartDoc.data();
+
+const productRef=doc(
+
+db,
+
+"products",
+
+cart.productId
+
 );
 
-// Find matching product
-productSnapshot.forEach((p)=>{
+const productSnap=
 
-if(p.id===cartData.productId){
+await getDoc(productRef);
 
-cartProducts.push({
+if(productSnap.exists()){
 
-id:p.id,
+cartItems.push({
 
-...p.data(),
+cartId:cartDoc.id,
 
-quantity:cartData.quantity || 1
+...cart,
+
+product:productSnap.data()
 
 });
 
 }
-
-});
 
 }
 
 renderCart();
 
-updateTotals();
+calculateTotals();
 
 }
 
-catch(error){
-
-console.error(error);
-
-alert(error.message);
+);
 
 }
 
-}
-// ==========================================
-// PrimeMart Cart
-// Part 3 / 8
-// Render Cart Items
-// ==========================================
+// =====================================================
+// RENDER
+// =====================================================
 
 function renderCart(){
 
-if(!cartItems) return;
+if(cartItems.length===0){
 
-cartItems.innerHTML = "";
-
-if(cartProducts.length===0){
+cartContainer.style.display="none";
 
 emptyCart.style.display="block";
-
-cartItems.style.display="none";
 
 return;
 
 }
 
+cartContainer.style.display="block";
+
 emptyCart.style.display="none";
 
-cartItems.style.display="block";
+cartContainer.innerHTML="";
 
-cartProducts.forEach((product)=>{
+cartItems.forEach(item=>{
 
-cartItems.innerHTML += `
+const p=item.product;
+
+cartContainer.innerHTML+=`
 
 <div class="cart-item">
 
 <img
-src="${product.images?.[0] || 'default-product.png'}"
-class="cart-image">
+src="${p.images?.[0]||'default-product.png'}">
 
-<div class="cart-info">
+<div class="cart-details">
 
-<h3>${product.productName}</h3>
+<h3>${p.productName}</h3>
 
-<p>Rs. ${product.price}</p>
+<p>
 
-<div class="qty-box">
+Rs. ${p.discountPrice||p.price}
+
+</p>
+
+<div class="qty">
 
 <button
-onclick="decreaseQty('${product.id}')">
+onclick="decreaseQty('${item.cartId}')">
 
-−
+-
 
 </button>
 
 <span>
 
-${product.quantity}
+${item.quantity}
 
 </span>
 
 <button
-onclick="increaseQty('${product.id}')">
+onclick="increaseQty('${item.cartId}')">
 
 +
 
@@ -201,8 +218,7 @@ onclick="increaseQty('${product.id}')">
 </div>
 
 <button
-class="remove-btn"
-onclick="removeItem('${product.id}')">
+onclick="removeItem('${item.cartId}')">
 
 Remove
 
@@ -217,41 +233,35 @@ Remove
 });
 
 }
-// ==========================================
-// PrimeMart Cart
-// Part 4 / 8
-// Quantity + Remove
-// ==========================================
+// =====================================================
+// PrimeMart Commercial Marketplace
+// Cart System v2.0
+// Part 2 / 3
+// =====================================================
 
-// ==========================================
-// Increase Quantity
-// ==========================================
+// =====================================================
+// QUANTITY +
+// =====================================================
 
-window.increaseQty = async function(productId){
+window.increaseQty = async function(cartId){
 
 try{
 
-const item = cartProducts.find(p=>p.id===productId);
+const item = cartItems.find(x=>x.cartId===cartId);
 
 if(!item) return;
 
-item.quantity++;
-
 await updateDoc(
 
-doc(db,"users",currentUser.uid,"cart",productId),
+doc(db,"cart",cartId),
 
 {
 
-quantity:item.quantity
+quantity:item.quantity+1
 
 }
 
 );
-
-renderCart();
-
-updateTotals();
 
 }
 
@@ -265,39 +275,31 @@ alert(error.message);
 
 };
 
-// ==========================================
-// Decrease Quantity
-// ==========================================
+// =====================================================
+// QUANTITY -
+// =====================================================
 
-window.decreaseQty = async function(productId){
+window.decreaseQty = async function(cartId){
 
 try{
 
-const item = cartProducts.find(p=>p.id===productId);
+const item = cartItems.find(x=>x.cartId===cartId);
 
 if(!item) return;
 
-if(item.quantity>1){
-
-item.quantity--;
+if(item.quantity<=1) return;
 
 await updateDoc(
 
-doc(db,"users",currentUser.uid,"cart",productId),
+doc(db,"cart",cartId),
 
 {
 
-quantity:item.quantity
+quantity:item.quantity-1
 
 }
 
 );
-
-renderCart();
-
-updateTotals();
-
-}
 
 }
 
@@ -311,33 +313,27 @@ alert(error.message);
 
 };
 
-// ==========================================
-// Remove Item
-// ==========================================
+// =====================================================
+// REMOVE ITEM
+// =====================================================
 
-window.removeItem = async function(productId){
+window.removeItem = async function(cartId){
 
-try{
+const ok = confirm(
 
-const ok = confirm("Remove this product from cart?");
+"Remove this product from cart?"
+
+);
 
 if(!ok) return;
 
+try{
+
 await deleteDoc(
 
-doc(db,"users",currentUser.uid,"cart",productId)
+doc(db,"cart",cartId)
 
 );
-
-cartProducts = cartProducts.filter(
-
-p=>p.id!==productId
-
-);
-
-renderCart();
-
-updateTotals();
 
 }
 
@@ -350,200 +346,125 @@ alert(error.message);
 }
 
 };
-// ==========================================
-// PrimeMart Cart
-// Part 5 / 8
-// Order Summary
-// ==========================================
 
-const DELIVERY_FEE = 250;
+// =====================================================
+// TOTALS
+// =====================================================
 
-// ==========================================
-// Update Totals
-// ==========================================
+function calculateTotals(){
 
-function updateTotals(){
+let qty=0;
 
-let items = 0;
-let subtotalPrice = 0;
+let sub=0;
 
-cartProducts.forEach(product=>{
+cartItems.forEach(item=>{
 
-items += product.quantity;
+qty += item.quantity;
 
-const price =
-Number(product.discountPrice || product.price || 0);
+const price = Number(
 
-subtotalPrice += price * product.quantity;
+item.product.discountPrice ||
+
+item.product.price ||
+
+0
+
+);
+
+sub += price * item.quantity;
 
 });
 
-const grand = subtotalPrice + DELIVERY_FEE;
-
-// Update UI
+const grand = sub + DELIVERY_FEE;
 
 if(totalItems){
 
-totalItems.textContent = items;
+totalItems.textContent = qty;
 
 }
 
 if(subtotal){
 
-subtotal.textContent = `Rs. ${subtotalPrice}`;
+subtotal.textContent =
+
+`Rs. ${sub.toLocaleString()}`;
 
 }
 
-if(deliveryCharges){
+if(delivery){
 
-deliveryCharges.textContent = `Rs. ${DELIVERY_FEE}`;
+delivery.textContent =
+
+`Rs. ${DELIVERY_FEE.toLocaleString()}`;
 
 }
 
 if(grandTotal){
 
-grandTotal.textContent = `Rs. ${grand}`;
+grandTotal.textContent =
 
-}
-
-}
-// ==========================================
-// PrimeMart Cart
-// Part 6 / 8
-// Coupon + Checkout
-// ==========================================
-
-const couponInput =
-document.getElementById("couponCode");
-
-const couponMessage =
-document.getElementById("couponMessage");
-
-const applyCouponBtn =
-document.getElementById("applyCouponBtn");
-
-const checkoutBtn =
-document.getElementById("checkoutBtn");
-
-let couponDiscount = 0;
-
-// ==========================================
-// Coupon (Future Ready)
-// ==========================================
-
-if(applyCouponBtn){
-
-applyCouponBtn.addEventListener("click",()=>{
-
-const code = couponInput.value.trim().toUpperCase();
-
-if(code==="PRIME10"){
-
-couponDiscount = 10;
-
-couponMessage.textContent =
-"✅ Coupon Applied (10% Discount)";
-
-}else{
-
-couponDiscount = 0;
-
-couponMessage.textContent =
-"❌ Invalid Coupon";
-
-}
-
-updateTotals();
-
-});
-
-}
-
-// ==========================================
-// Update Totals With Coupon
-// ==========================================
-
-const originalUpdateTotals = updateTotals;
-
-updateTotals = function(){
-
-originalUpdateTotals();
-
-if(couponDiscount>0){
-
-let subtotalValue = 0;
-
-cartProducts.forEach(product=>{
-
-const price =
-Number(product.discountPrice || product.price || 0);
-
-subtotalValue += price * product.quantity;
-
-});
-
-const discountAmount =
-Math.round(subtotalValue * couponDiscount / 100);
-
-const finalTotal =
-subtotalValue - discountAmount + DELIVERY_FEE;
-
-if(grandTotal){
-
-grandTotal.textContent = `Rs. ${finalTotal}`;
+`Rs. ${grand.toLocaleString()}`;
 
 }
 
 }
 
-};
-
-// ==========================================
-// Checkout
-// ==========================================
+// =====================================================
+// CHECKOUT
+// =====================================================
 
 if(checkoutBtn){
 
 checkoutBtn.addEventListener("click",()=>{
 
-window.location.href = "checkout.html";
+if(cartItems.length===0){
+
+alert("Your cart is empty.");
+
+return;
+
+}
+
+window.location.href="checkout.html";
 
 });
 
 }
-// ==========================================
-// PrimeMart Cart
-// Part 7 / 8
-// Auto Refresh + Firestore Sync
-// ==========================================
+// =====================================================
+// PrimeMart Commercial Marketplace
+// Cart System v2.0
+// Part 3 / 3 (Final)
+// =====================================================
 
-// ==========================================
-// Refresh Cart
-// ==========================================
+// =====================================================
+// REFRESH
+// =====================================================
 
 async function refreshCart(){
 
-await loadCart();
-
-}
-
-// ==========================================
-// Auto Refresh Every 60 Seconds
-// ==========================================
-
-setInterval(async()=>{
-
 if(currentUser){
 
-await refreshCart();
+startCartListener();
 
 }
 
-},60000);
+}
 
-// ==========================================
-// Contact Support
-// ==========================================
+window.refreshCart = refreshCart;
+
+// =====================================================
+// CONTINUE SHOPPING
+// =====================================================
+
+window.continueShopping = function(){
+
+window.location.href = "index.html";
+
+};
+
+// =====================================================
+// SUPPORT
+// =====================================================
 
 const contactSupportBtn =
 document.getElementById("contactSupportBtn");
@@ -552,57 +473,43 @@ if(contactSupportBtn){
 
 contactSupportBtn.addEventListener("click",()=>{
 
-alert("PrimeMart Support will be available soon.");
+alert(
+"PrimeMart Support will be available soon."
+);
 
 });
 
 }
 
-// ==========================================
-// Continue Shopping Shortcut
-// ==========================================
+// =====================================================
+// INITIALIZATION
+// =====================================================
 
-window.continueShopping = function(){
+document.addEventListener("DOMContentLoaded",()=>{
 
-window.location.href = "index.html";
+console.log(
+"PrimeMart Cart Commercial v2 Loaded Successfully"
+);
 
-};
-// ==========================================
-// PrimeMart Cart
-// Part 8 / 8 (Final)
-// ==========================================
+});
 
-// ==========================================
-// Global Functions
-// ==========================================
+// =====================================================
+// AUTO REFRESH
+// =====================================================
 
-window.refreshCart = refreshCart;
-
-window.renderCart = renderCart;
-
-window.updateTotals = updateTotals;
-
-// ==========================================
-// Initial Load
-// ==========================================
-
-document.addEventListener("DOMContentLoaded", async()=>{
+setInterval(()=>{
 
 if(currentUser){
 
-await refreshCart();
+refreshCart();
 
 }
 
-console.log("PrimeMart Cart Ready");
+},30000);
 
-});
-
-// ==========================================
-// PrimeMart Cart
-// Firebase v3.0
-// Firestore Ready
-// Storage Ready
-// LocalStorage Removed
-// Commercial Version
-// ==========================================
+// =====================================================
+// END OF FILE
+// PrimeMart Cart Commercial v2
+// Stable Architecture
+// Firebase Firestore Ready
+// =====================================================
