@@ -1,40 +1,56 @@
-// ===============================
-// PrimeMart Choose Account
-// ===============================
+import { auth, firestore } from "./firebase-config.js";
+
+import {
+    doc,
+    updateDoc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const buyerBtn = document.getElementById("buyerBtn");
 const sellerBtn = document.getElementById("sellerBtn");
 
-// ===============================
-// Buyer
-// ===============================
+buyerBtn.addEventListener("click", async () => {
 
-buyerBtn.addEventListener("click", () => {
+    const user = auth.currentUser;
 
-    localStorage.setItem("userRole", "buyer");
+    if (!user) return;
+
+    await updateDoc(doc(firestore, "users", user.uid), {
+
+        role: "buyer"
+
+    });
 
     window.location.href = "index.html";
 
 });
 
-// ===============================
-// Seller
-// ===============================
+sellerBtn.addEventListener("click", async () => {
 
-sellerBtn.addEventListener("click", () => {
+    const user = auth.currentUser;
 
-    localStorage.setItem("userRole", "seller");
+    if (!user) return;
 
-    const storeCreated = localStorage.getItem("storeCreated");
+    const ref = doc(firestore, "users", user.uid);
 
-    if (storeCreated === "true") {
+    const snap = await getDoc(ref);
 
-        // Store پہلے سے موجود ہے
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+
+    await updateDoc(ref, {
+
+        role: "seller"
+
+    });
+
+    if (data.storeCreated === true) {
+
         window.location.href = "seller-dashboard.html";
 
     } else {
 
-        // پہلی مرتبہ Store بنانا ہے
         window.location.href = "create-store.html";
 
     }
