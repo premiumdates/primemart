@@ -1,15 +1,20 @@
-import { auth } from "./firebase-config.js";
+import { auth, firestore } from "./firebase-config.js";
+
+import {
+    doc,
+    setDoc,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const form = document.getElementById("createStoreForm");
 
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    // Login Check
-    const currentUser = localStorage.getItem("currentUser");
+    const user = auth.currentUser;
 
-    if (!currentUser) {
+    if (!user) {
 
         alert("Please login first.");
 
@@ -19,81 +24,83 @@ form.addEventListener("submit", function (e) {
 
     }
 
-    // Form Values
-    const storeName = document.getElementById("storeName").value.trim();
+    const storeName =
+        document.getElementById("storeName").value.trim();
 
-    const storeDescription = document.getElementById("storeDescription").value.trim();
+    const storeDescription =
+        document.getElementById("storeDescription").value.trim();
 
-    const paymentMethod = document.getElementById("paymentMethod").value;
+    const paymentMethod =
+        document.getElementById("paymentMethod").value;
 
-    const paymentNumber = document.getElementById("paymentNumber").value.trim();
+    const paymentNumber =
+        document.getElementById("paymentNumber").value.trim();
 
-    const storeCategory = document.getElementById("storeCategory").value;
-
-    // Validation
+    const storeCategory =
+        document.getElementById("storeCategory").value;
 
     if (storeName === "") {
 
-        alert("Please enter Store Name.");
+        alert("Enter Store Name");
 
         return;
 
     }
 
-    if (paymentMethod === "") {
+    try{
 
-        alert("Please select Payment Method.");
+        // Store Save
 
-        return;
+        await setDoc(doc(firestore,"stores",user.uid),{
+
+            owner:user.uid,
+
+            storeName:storeName,
+
+            description:storeDescription,
+
+            paymentMethod:paymentMethod,
+
+            paymentNumber:paymentNumber,
+
+            category:storeCategory,
+
+            status:"active",
+
+            verified:false,
+
+            rating:0,
+
+            totalProducts:0,
+
+            totalOrders:0,
+
+            createdAt:new Date().toISOString()
+
+        });
+
+        // User Update
+
+        await updateDoc(doc(firestore,"users",user.uid),{
+
+            role:"seller",
+
+            storeCreated:true,
+
+            storeName:storeName
+
+        });
+
+        alert("🎉 Store Created Successfully");
+
+        window.location.href="seller-dashboard.html";
 
     }
 
-    if (paymentNumber === "") {
+    catch(error){
 
-        alert("Please enter Payment Number.");
-
-        return;
+        alert(error.message);
 
     }
-
-    if (storeCategory === "") {
-
-        alert("Please select Store Category.");
-
-        return;
-
-    }
-
-    // Store Save
-
-    const storeData = {
-
-        owner: currentUser,
-
-        name: storeName,
-
-        description: storeDescription,
-
-        paymentMethod: paymentMethod,
-
-        paymentNumber: paymentNumber,
-
-        category: storeCategory,
-
-        createdAt: new Date().toISOString()
-
-    };
-
-    localStorage.setItem("storeCreated", "true");
-
-    localStorage.setItem("storeName", storeName);
-
-    localStorage.setItem("storeData", JSON.stringify(storeData));
-
-    localStorage.setItem("userRole", "seller");
-
-    alert("🎉 Store Created Successfully!");
-
-    window.location.href = "seller-dashboard.html";
 
 });
