@@ -1,160 +1,235 @@
 // =====================================
-// PrimeMart Seller Dashboard
-// Part 1
+// PrimeMart Seller Dashboard v2.0
+// Step 1
+// Firebase Ready Version
+// =====================================
+
+import { auth, db, storage } from "./firebase-config.js";
+
+import {
+collection,
+addDoc,
+getDocs,
+updateDoc,
+deleteDoc,
+doc,
+query,
+where,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+ref,
+uploadBytes,
+getDownloadURL,
+deleteObject
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+import {
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// =====================================
+// Global Variables
+// =====================================
+
+let currentUser = null;
+let currentStore = null;
+let products = [];
+let editProductId = null;
+
+// =====================================
+// HTML Elements
 // =====================================
 
 const productForm = document.getElementById("productForm");
 
-const tableBody = document.querySelector("#productTable tbody");
-
-const totalProducts = document.getElementById("totalProducts");
-
-const totalOrders = document.getElementById("totalOrders");
-
-const totalEarnings = document.getElementById("totalEarnings");
-
-const totalReviews = document.getElementById("totalReviews");
+const storeTitle = document.getElementById("storeTitle");
 
 const logoutBtn = document.getElementById("logoutBtn");
 
-const storeTitle = document.getElementById("storeTitle");
+const productTableBody =
+document.getElementById("productTableBody");
 
-// ---------------------------
-// Store Name
-// ---------------------------
+const totalProducts =
+document.getElementById("totalProducts");
 
-const savedStore = localStorage.getItem("storeName");
+const totalOrders =
+document.getElementById("totalOrders");
 
-if (savedStore && storeTitle) {
+const totalRevenue =
+document.getElementById("totalRevenue");
 
-    storeTitle.textContent = savedStore;
+const storeRating =
+document.getElementById("storeRating");
 
-}
+// =====================================
+// Authentication
+// =====================================
 
-// ---------------------------
-// Logout
-// ---------------------------
+onAuthStateChanged(auth, async (user)=>{
 
-if (logoutBtn) {
+if(!user){
 
-    logoutBtn.addEventListener("click", () => {
+window.location.href="login.html";
 
-        localStorage.removeItem("currentUser");
-
-        localStorage.removeItem("userRole");
-
-        window.location.href = "login.html";
-
-    });
+return;
 
 }
 
-// ---------------------------
-// Products
-// ---------------------------
+currentUser=user;
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+// آگے Step 2 میں
+// Store Load ہوگا
 
-// ---------------------------
-// Save Products
-// ---------------------------
+});
+// =====================================
+// Step 2
+// Load Seller Store
+// =====================================
 
-function saveProducts() {
+async function loadSellerStore() {
 
-    localStorage.setItem(
+    try {
 
-        "products",
+        const q = query(
+            collection(db, "stores"),
+            where("owner", "==", currentUser.uid)
+        );
 
-        JSON.stringify(products)
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+
+            alert("Store not found.");
+
+            window.location.href = "create-store.html";
+
+            return;
+
+        }
+
+        snapshot.forEach((docSnap) => {
+
+            currentStore = {
+
+                id: docSnap.id,
+
+                ...docSnap.data()
+
+            };
+
+        });
+
+        if (storeTitle) {
+
+            storeTitle.textContent = currentStore.name;
+
+        }
+
+        loadProducts();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to load seller store.");
+
+    }
+
+}
+
+// =====================================
+// Load Products
+// =====================================
+
+async function loadProducts() {
+
+    products = [];
+
+    const q = query(
+
+        collection(db, "products"),
+
+        where("sellerId", "==", currentUser.uid)
 
     );
 
+    const snapshot = await getDocs(q);
+
+    snapshot.forEach((docSnap) => {
+
+        products.push({
+
+            id: docSnap.id,
+
+            ...docSnap.data()
+
+        });
+
+    });
+
+    renderProducts();
+
+    updateDashboardCards();
+
 }
 
-// ---------------------------
-// Dashboard Cards
-// ---------------------------
+// =====================================
+// Continue Authentication
+// =====================================
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    await loadSellerStore();
+
+});
+// =====================================
+// Step 3
+// Dashboard Cards + Product Rendering
+// =====================================
 
 function updateDashboardCards() {
 
-    if (totalProducts)
+    if (totalProducts) {
 
         totalProducts.textContent = products.length;
 
-    if (totalOrders)
+    }
+
+    if (totalOrders) {
 
         totalOrders.textContent = "0";
 
-    if (totalEarnings)
+    }
 
-        totalEarnings.textContent = "Rs.0";
+    if (totalRevenue) {
 
-    if (totalReviews)
+        totalRevenue.textContent = "Rs.0";
 
-        totalReviews.textContent = "0";
+    }
 
-}
-// =====================================
-// Product Form Submit
-// =====================================
+    if (storeRating) {
 
-let editIndex = -1;
+        storeRating.textContent = "0 ⭐";
 
-if (productForm) {
-
-productForm.addEventListener("submit", function (e) {
-
-e.preventDefault();
-
-const product = {
-
-name: document.getElementById("productName").value,
-
-category: document.getElementById("productCategory").value,
-
-price: document.getElementById("productPrice").value,
-
-discount: document.getElementById("discountPrice").value,
-
-stock: document.getElementById("productStock").value,
-
-brand: document.getElementById("brand").value,
-
-description: document.getElementById("description").value,
-
-image: document.getElementById("productImages").files[0]
-? document.getElementById("productImages").files[0].name
-: "",
-
-video: document.getElementById("productVideo").files[0]
-? document.getElementById("productVideo").files[0].name
-: ""
-
-};
-
-if (editIndex === -1) {
-
-products.push(product);
-
-} else {
-
-products[editIndex] = product;
-
-editIndex = -1;
-
-}
-
-saveProducts();
-
-renderProducts();
-
-updateDashboardCards();
-
-productForm.reset();
-
-alert("✅ Product Saved Successfully!");
-
-});
+    }
 
 }
 
@@ -164,19 +239,19 @@ alert("✅ Product Saved Successfully!");
 
 function renderProducts() {
 
-if (!tableBody) return;
+    if (!productTableBody) return;
 
-tableBody.innerHTML = "";
+    productTableBody.innerHTML = "";
 
-if (products.length === 0) {
+    if (products.length === 0) {
 
-tableBody.innerHTML = `
+        productTableBody.innerHTML = `
 
 <tr>
 
-<td colspan="6">
+<td colspan="7">
 
-No Products Yet
+No Products Available
 
 </td>
 
@@ -184,19 +259,23 @@ No Products Yet
 
 `;
 
-return;
+        return;
 
-}
+    }
 
-products.forEach((product, index) => {
+    products.forEach((product) => {
 
-tableBody.innerHTML += `
+        productTableBody.innerHTML += `
 
 <tr>
 
 <td>
 
-${product.image || "📷"}
+<img
+src="${product.image || 'logo.png'}"
+width="60"
+height="60"
+style="border-radius:8px;object-fit:cover;">
 
 </td>
 
@@ -226,13 +305,21 @@ ${product.stock}
 
 <td>
 
-<button onclick="editProduct(${index})">
+${product.status || "Active"}
+
+</td>
+
+<td>
+
+<button
+onclick="editProduct('${product.id}')">
 
 Edit
 
 </button>
 
-<button onclick="deleteProduct(${index})">
+<button
+onclick="deleteProduct('${product.id}','${product.imagePath || ""}')">
 
 Delete
 
@@ -244,24 +331,210 @@ Delete
 
 `;
 
+    });
+
+}
+// =====================================
+// Step 4
+// Create Product (Firestore + Storage)
+// =====================================
+
+if (productForm) {
+
+productForm.addEventListener("submit", async (e) => {
+
+e.preventDefault();
+
+try {
+
+const productName =
+document.getElementById("productName").value;
+
+const productCategory =
+document.getElementById("productCategory").value;
+
+const productPrice =
+document.getElementById("productPrice").value;
+
+const discountPrice =
+document.getElementById("discountPrice").value;
+
+const productStock =
+document.getElementById("productStock").value;
+
+const brand =
+document.getElementById("brand").value;
+
+const description =
+document.getElementById("description").value;
+
+const imageFile =
+document.getElementById("productImages").files[0];
+
+const videoFile =
+document.getElementById("productVideo").files[0];
+
+let imageURL = "";
+let imagePath = "";
+
+let videoURL = "";
+let videoPath = "";
+
+// =====================
+// Upload Image
+// =====================
+
+if (imageFile) {
+
+imagePath =
+`products/${currentUser.uid}/${Date.now()}_${imageFile.name}`;
+
+const imageRef = ref(storage, imagePath);
+
+await uploadBytes(imageRef, imageFile);
+
+imageURL =
+await getDownloadURL(imageRef);
+
+}
+
+// =====================
+// Upload Video
+// =====================
+
+if (videoFile) {
+
+videoPath =
+`products/${currentUser.uid}/${Date.now()}_${videoFile.name}`;
+
+const videoRef = ref(storage, videoPath);
+
+await uploadBytes(videoRef, videoFile);
+
+videoURL =
+await getDownloadURL(videoRef);
+
+}
+
+// =====================
+// Save Product
+// =====================
+
+await addDoc(collection(db, "products"), {
+
+sellerId: currentUser.uid,
+
+storeId: currentStore.id,
+
+storeName: currentStore.name,
+
+name: productName,
+
+category: productCategory,
+
+price: Number(productPrice),
+
+discountPrice: Number(discountPrice),
+
+stock: Number(productStock),
+
+brand: brand,
+
+description: description,
+
+image: imageURL,
+
+imagePath: imagePath,
+
+video: videoURL,
+
+videoPath: videoPath,
+
+status: "Active",
+
+rating: 0,
+
+reviews: 0,
+
+orders: 0,
+
+createdAt: serverTimestamp()
+
+});
+
+alert("✅ Product Added Successfully");
+
+productForm.reset();
+
+await loadProducts();
+
+}
+
+catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
 });
 
 }
 // =====================================
+// Step 5
+// Delete + Edit + Logout
+// =====================================
+
+import {
+deleteDoc,
+updateDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+deleteObject,
+ref
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+// =====================================
 // Delete Product
 // =====================================
 
-window.deleteProduct = function(index){
+window.deleteProduct = async function(productId, imagePath){
 
-if(confirm("Are you sure you want to delete this product?")){
+try{
 
-products.splice(index,1);
+const confirmDelete =
+confirm("Delete this product?");
 
-saveProducts();
+if(!confirmDelete) return;
 
-renderProducts();
+// Delete Image
 
-updateDashboardCards();
+if(imagePath){
+
+const imageRef = ref(storage,imagePath);
+
+await deleteObject(imageRef);
+
+}
+
+// Delete Firestore Document
+
+await deleteDoc(
+doc(db,"products",productId)
+);
+
+await loadProducts();
+
+alert("✅ Product Deleted");
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
 
 }
 
@@ -271,25 +544,35 @@ updateDashboardCards();
 // Edit Product
 // =====================================
 
-window.editProduct = function(index){
+window.editProduct = function(productId){
 
-const product = products[index];
+const product =
+products.find(p=>p.id===productId);
 
-editIndex = index;
+if(!product) return;
 
-document.getElementById("productName").value = product.name;
+editProductId = product.id;
 
-document.getElementById("productCategory").value = product.category;
+document.getElementById("productName").value =
+product.name;
 
-document.getElementById("productPrice").value = product.price;
+document.getElementById("productCategory").value =
+product.category;
 
-document.getElementById("discountPrice").value = product.discount;
+document.getElementById("productPrice").value =
+product.price;
 
-document.getElementById("productStock").value = product.stock;
+document.getElementById("discountPrice").value =
+product.discountPrice;
 
-document.getElementById("brand").value = product.brand;
+document.getElementById("productStock").value =
+product.stock;
 
-document.getElementById("description").value = product.description;
+document.getElementById("brand").value =
+product.brand;
+
+document.getElementById("description").value =
+product.description;
 
 window.scrollTo({
 
@@ -302,16 +585,115 @@ behavior:"smooth"
 };
 
 // =====================================
-// Initial Load
+// Logout
 // =====================================
 
-renderProducts();
+if(logoutBtn){
+
+logoutBtn.addEventListener("click",async()=>{
+
+await signOut(auth);
+
+window.location.href="login.html";
+
+});
+
+}
+
+// =====================================
+// Refresh Dashboard
+// =====================================
+
+window.refreshDashboard = async()=>{
+
+await loadProducts();
 
 updateDashboardCards();
 
+};
 // =====================================
-// Future Ready
-// Firebase میں صرف یہی Functions
-// بعد میں تبدیل ہوں گی
-// باقی Dashboard دوبارہ نہیں بنانا پڑے گا
+// Step 6
+// Update Product + Final Initialization
+// =====================================
+
+// =====================
+// Update Existing Product
+// =====================
+
+async function updateExistingProduct(data){
+
+try{
+
+await updateDoc(
+
+doc(db,"products",editProductId),
+
+{
+
+name:data.name,
+
+category:data.category,
+
+price:Number(data.price),
+
+discountPrice:Number(data.discount),
+
+stock:Number(data.stock),
+
+brand:data.brand,
+
+description:data.description,
+
+updatedAt:serverTimestamp()
+
+}
+
+);
+
+editProductId = null;
+
+await loadProducts();
+
+alert("✅ Product Updated Successfully");
+
+}
+
+catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+// =====================================
+// Dashboard Initialization
+// =====================================
+
+document.addEventListener("DOMContentLoaded",async()=>{
+
+if(auth.currentUser){
+
+currentUser = auth.currentUser;
+
+await loadSellerStore();
+
+}
+
+});
+
+// =====================================
+// Export (Future)
+// =====================================
+
+window.loadProducts = loadProducts;
+
+window.updateDashboardCards = updateDashboardCards;
+
+// =====================================
+// PrimeMart Seller Dashboard v2.0
+// Firebase Ready
+// LocalStorage Removed
 // =====================================
