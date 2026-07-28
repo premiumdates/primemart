@@ -8,10 +8,24 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Seller Dashboard - PrimeMart</title>
+<title>PrimeMart Seller Dashboard</title>
 
-<link rel="stylesheet"
+<link
+rel="stylesheet"
 href="seller-dashboard.css">
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 </head>
 
@@ -19,45 +33,84 @@ href="seller-dashboard.css">
 
 <div class="dashboard">
 
-<!-- ================= HEADER ================= -->
-
 <header class="topbar">
+
+<div class="left">
 
 <div class="logo">
 
-<img src="logo.png" alt="Logo">
+<img
+src="logo.png"
+alt="PrimeMart">
 
-<h2>PrimeMart Seller</h2>
+<h2>
+
+PrimeMart Seller
+
+</h2>
 
 </div>
 
-<div class="top-right">
+</div>
 
-<span id="storeTitle">
-My Store
-</span>
+<div class="center">
+
+<input
+type="search"
+id="searchProducts"
+placeholder="Search Products...">
+
+</div>
+
+<div class="right">
 
 <button id="notificationBtn">
+
 🔔
+
+<span id="notificationCount">
+
+0
+
+</span>
+
 </button>
 
 <button id="profileBtn">
+
 👤
+
 </button>
 
 <button id="logoutBtn">
+
 Logout
+
 </button>
 
 </div>
 
 </header>
 
-<!-- ================= SIDEBAR ================= -->
+<div class="container">
 
 <aside class="sidebar">
 
-<h3>Seller Menu</h3>
+<div class="seller-box">
+
+<h3 id="storeTitle">
+
+Loading...
+
+</h3>
+
+<p>
+
+PrimeMart Verified Seller
+
+</p>
+
+</div>
 
 <ul>
 
@@ -69,37 +122,25 @@ Logout
 
 <li>
 
-➕ Add Product
+➕ Products
 
 </li>
 
 <li>
 
-📦 My Products
-
-</li>
-
-<li>
-
-🛒 Orders
-
-</li>
-
-<li>
-
-👥 Customers
-
-</li>
-
-<li>
-
-⭐ Reviews
+📦 Orders
 
 </li>
 
 <li>
 
 💰 Earnings
+
+</li>
+
+<li>
+
+⭐ Reviews
 
 </li>
 
@@ -125,9 +166,9 @@ Logout
 
 </aside>
 
-<!-- ================= MAIN ================= -->
-
 <main class="main-content">
+
+<section class="welcome">
 
 <h1>
 
@@ -137,13 +178,13 @@ Welcome Seller 👋
 
 <p>
 
-Manage your complete business from one place.
+Manage your complete PrimeMart business from here.
 
 </p>
 
-<!-- Dashboard Cards -->
+</section>
 
-<div class="cards">
+<section class="dashboard-cards">
 
 <div class="card">
 
@@ -179,7 +220,7 @@ Orders
 
 <div class="card">
 
-<h2 id="totalSales">
+<h2 id="totalRevenue">
 
 Rs.0
 
@@ -187,7 +228,7 @@ Rs.0
 
 <p>
 
-Sales
+Revenue
 
 </p>
 
@@ -195,89 +236,223 @@ Sales
 
 <div class="card">
 
-<h2 id="totalReviews">
+<h2 id="storeRating">
 
-0
+0 ⭐
 
 </h2>
 
 <p>
 
-Reviews
+Rating
+
+</p>
+
+</div>
+
+</section>
+<!-- ================= STORE INFORMATION ================= -->
+
+<section class="store-information">
+
+<div class="store-card">
+
+<h2>
+
+🏪 Store Information
+
+</h2>
+
+<div class="store-grid">
+
+<div>
+
+<label>
+
+Store Name
+
+</label>
+
+<p id="storeNameView">
+
+Loading...
+
+</p>
+
+</div>
+
+<div>
+
+<label>
+
+Status
+
+</label>
+
+<p id="storeStatus">
+
+Active
+
+</p>
+
+</div>
+
+<div>
+
+<label>
+
+Verification
+
+</label>
+
+<p id="storeVerification">
+
+Pending
+
+</p>
+
+</div>
+
+<div>
+
+<label>
+
+Seller Since
+
+</label>
+
+<p id="sellerSince">
+
+Loading...
 
 </p>
 
 </div>
 
 </div>
+
+</div>
+
+</section>
+
 <!-- ================= ADD PRODUCT ================= -->
 
-<section class="product-form">
+<section class="product-section">
 
-<h2>Add New Product</h2>
+<h2>
+
+Create Product
+
+</h2>
 
 <form id="productForm">
 
-<input type="text" id="productName"
-placeholder="Product Name" required>
+<div class="row">
 
-<select id="productCategory" required>
+<input
+type="text"
+id="productName"
+placeholder="Product Name"
+required>
 
-<option value="">Select Category</option>
+<select
+id="productCategory"
+required>
 
-<option>Electronics</option>
-<option>Mobiles</option>
-<option>Laptops</option>
-<option>Computers</option>
-<option>Accessories</option>
-<option>Men Fashion</option>
-<option>Women Fashion</option>
-<option>Kids Fashion</option>
-<option>Shoes</option>
-<option>Watches</option>
-<option>Beauty</option>
-<option>Health</option>
-<option>Sports</option>
-<option>Books</option>
-<option>Home & Living</option>
-<option>Furniture</option>
-<option>Kitchen</option>
-<option>Groceries</option>
-<option>Dry Fruits</option>
-<option>Dates</option>
-<option>Honey</option>
-<option>Tea</option>
-<option>Coffee</option>
-<option>Automotive</option>
-<option>Motorcycle Parts</option>
-<option>Tools</option>
-<option>Pet Supplies</option>
-<option>Toys</option>
-<option>Baby Products</option>
-<option>Office Supplies</option>
+<option value="">
+
+Select Category
+
+</option>
+
+<option>
+
+Electronics
+
+</option>
+
+<option>
+
+Mobiles
+
+</option>
+
+<option>
+
+Fashion
+
+</option>
+
+<option>
+
+Home & Living
+
+</option>
+
+<option>
+
+Beauty
+
+</option>
+
+<option>
+
+Sports
+
+</option>
+
+<option>
+
+Groceries
+
+</option>
+
+<option>
+
+Books
+
+</option>
 
 </select>
 
-<input type="number"
-id="productPrice"
-placeholder="Price">
+</div>
 
-<input type="number"
+<div class="row">
+
+<input
+type="number"
+id="productPrice"
+placeholder="Price (PKR)"
+required>
+
+<input
+type="number"
 id="discountPrice"
 placeholder="Discount Price">
 
-<input type="number"
+</div>
+
+<div class="row">
+
+<input
+type="number"
 id="productStock"
 placeholder="Stock Quantity">
 
-<input type="text"
+<input
+type="text"
 id="brand"
-placeholder="Brand">
+placeholder="Brand Name">
+
+</div>
 
 <textarea
 id="description"
 placeholder="Product Description">
+
 </textarea>
+
+<div class="upload-area">
 
 <label>
 
@@ -302,8 +477,11 @@ type="file"
 id="productVideo"
 accept="video/*">
 
+</div>
+
 <button
-type="submit">
+type="submit"
+id="createProductBtn">
 
 Create Product
 
@@ -312,16 +490,29 @@ Create Product
 </form>
 
 </section>
+<!-- ================= MY PRODUCTS ================= -->
 
-<!-- ================= PRODUCT TABLE ================= -->
+<section class="products-section">
 
-<section class="products">
+<div class="section-header">
 
 <h2>
 
-My Products
+📦 My Products
 
 </h2>
+
+<div>
+
+<button id="refreshProducts">
+
+Refresh
+
+</button>
+
+</div>
+
+</div>
 
 <table id="productTable">
 
@@ -339,19 +530,21 @@ My Products
 
 <th>Stock</th>
 
-<th>Action</th>
+<th>Status</th>
+
+<th>Actions</th>
 
 </tr>
 
 </thead>
 
-<tbody>
+<tbody id="productTableBody">
 
 <tr>
 
-<td colspan="6">
+<td colspan="7">
 
-No Products Yet
+No Products Available
 
 </td>
 
@@ -362,11 +555,171 @@ No Products Yet
 </table>
 
 </section>
+
+<!-- ================= RECENT ORDERS ================= -->
+
+<section class="orders-section">
+
+<h2>
+
+🛒 Recent Orders
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Order ID</th>
+
+<th>Customer</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="recentOrders">
+
+<tr>
+
+<td colspan="4">
+
+No Orders Yet
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<!-- ================= SELLER ANALYTICS ================= -->
+
+<section class="analytics-section">
+
+<div class="analytics-card">
+
+<h3>
+
+Today's Sales
+
+</h3>
+
+<p id="todaySales">
+
+Rs.0
+
+</p>
+
+</div>
+
+<div class="analytics-card">
+
+<h3>
+
+Monthly Revenue
+
+</h3>
+
+<p id="monthlyRevenue">
+
+Rs.0
+
+</p>
+
+</div>
+
+<div class="analytics-card">
+
+<h3>
+
+Pending Orders
+
+</h3>
+
+<p id="pendingOrders">
+
+0
+
+</p>
+
+</div>
+
+<div class="analytics-card">
+
+<h3>
+
+Completed Orders
+
+</h3>
+
+<p id="completedOrders">
+
+0
+
+</p>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+<!-- ================= NOTIFICATIONS ================= -->
+
+<section class="notification-section">
+
+<h2>
+
+🔔 Notifications
+
+</h2>
+
+<div id="notificationList">
+
+<p>
+
+No Notifications
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="seller-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+<p>
+
+Seller Dashboard Version 2.0
+
+</p>
+
+</footer>
+
 </main>
 
 </div>
 
-<script src="seller-dashboard.js"></script>
+<script type="module" src="seller-dashboard.js"></script>
 
 </body>
 
