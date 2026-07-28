@@ -1,1 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Checkout | PrimeMart</title>
+
+<link rel="stylesheet"
+href="checkout.css">
+
+</head>
+
+<body>
+
+<div class="checkout-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="checkout-header">
+
+<div class="logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h2>PrimeMart</h2>
+
+</div>
+
+<button onclick="window.location.href='cart.html'">
+
+⬅ Back to Cart
+
+</button>
+
+</header>
+
+<!-- ================= CHECKOUT ================= -->
+
+<main class="checkout-container">
+
+<h1>
+
+🧾 Checkout
+
+</h1>
+
+<!-- ================= CUSTOMER ================= -->
+
+<section class="customer-section">
+
+<h2>
+
+Customer Information
+
+</h2>
+
+<input
+type="text"
+id="customerName"
+placeholder="Full Name">
+
+<input
+type="email"
+id="customerEmail"
+placeholder="Email Address">
+
+<input
+type="tel"
+id="customerPhone"
+placeholder="Phone Number">
+
+</section>
+
+<!-- ================= SHIPPING ================= -->
+
+<section class="shipping-section">
+
+<h2>
+
+Shipping Address
+
+</h2>
+
+<textarea
+
+id="shippingAddress"
+
+placeholder="Complete Shipping Address">
+
+</textarea>
+
+</section>
+<!-- ================= PAYMENT ================= -->
+
+<section class="payment-section">
+
+<h2>
+
+Payment Method
+
+</h2>
+
+<select id="paymentMethod">
+
+<option value="cod">
+
+Cash on Delivery
+
+</option>
+
+<option value="jazzcash">
+
+JazzCash
+
+</option>
+
+<option value="easypaisa">
+
+EasyPaisa
+
+</option>
+
+<option value="bank">
+
+Bank Transfer
+
+</option>
+
+</select>
+
+<input
+type="text"
+id="paymentNumber"
+placeholder="JazzCash / EasyPaisa Number (if applicable)">
+
+</section>
+
+<!-- ================= ORDER SUMMARY ================= -->
+
+<aside class="checkout-summary">
+
+<h2>
+
+Order Summary
+
+</h2>
+
+<div id="checkoutItems">
+
+<p>
+
+Loading Order...
+
+</p>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+
+Subtotal
+
+</span>
+
+<span id="checkoutSubtotal">
+
+Rs. 0
+
+</span>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+
+Delivery
+
+</span>
+
+<span id="checkoutDelivery">
+
+Rs. 250
+
+</span>
+
+</div>
+
+<hr>
+
+<div class="summary-row total">
+
+<span>
+
+Grand Total
+
+</span>
+
+<span id="checkoutGrandTotal">
+
+Rs. 250
+
+</span>
+
+</div>
+
+</aside>
+<!-- ================= ORDER NOTES ================= -->
+
+<section class="order-notes">
+
+<h2>
+
+Order Notes
+
+</h2>
+
+<textarea
+
+id="orderNotes"
+
+placeholder="Special instructions for your order (optional)">
+
+</textarea>
+
+</section>
+
+<!-- ================= DELIVERY OPTIONS ================= -->
+
+<section class="delivery-options">
+
+<h2>
+
+Delivery Option
+
+</h2>
+
+<label>
+
+<input
+type="radio"
+name="delivery"
+value="standard"
+checked>
+
+Standard Delivery (PKR 250)
+
+</label>
+
+<br>
+
+<label>
+
+<input
+type="radio"
+name="delivery"
+value="express">
+
+Express Delivery (PKR 500)
+
+</label>
+
+</section>
+
+<!-- ================= PLACE ORDER ================= -->
+
+<section class="place-order-section">
+
+<button id="placeOrderBtn">
+
+✅ Place Order
+
+</button>
+
+</section>
+<!-- ================= ORDER SECURITY ================= -->
+
+<section class="checkout-security">
+
+<h2>
+
+Secure Checkout
+
+</h2>
+
+<ul>
+
+<li>🔒 SSL Encrypted Payment</li>
+
+<li>🛡 PrimeMart Buyer Protection</li>
+
+<li>↩ Easy Return Policy</li>
+
+<li>📞 24/7 Customer Support</li>
+
+</ul>
+
+</section>
+
+<!-- ================= SUCCESS MESSAGE ================= -->
+
+<section
+id="orderSuccess"
+style="display:none;">
+
+<h2>
+
+🎉 Order Placed Successfully!
+
+</h2>
+
+<p>
+
+Thank you for shopping with PrimeMart.
+
+</p>
+
+<button
+onclick="window.location.href='index.html'">
+
+Continue Shopping
+
+</button>
+
+</section>
+<!-- ================= HELP ================= -->
+
+<section class="checkout-help">
+
+<h2>
+
+Need Help?
+
+</h2>
+
+<p>
+
+If you have any issue while placing your order, please contact PrimeMart Customer Support.
+
+</p>
+
+<button id="supportBtn">
+
+Contact Support
+
+</button>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="checkout-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+<p>
+
+Safe Shopping • Secure Payments • Fast Delivery
+
+</p>
+
+</footer>
+<!-- ================= PAGE END ================= -->
+
+</main>
+
+</div>
+
+<script type="module" src="checkout.js"></script>
+
+</body>
+
+</html>
