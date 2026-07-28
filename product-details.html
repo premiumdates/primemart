@@ -1,1 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Product Details | PrimeMart</title>
+
+<link rel="stylesheet"
+href="product-details.css">
+
+</head>
+
+<body>
+
+<div class="product-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="product-header">
+
+<div class="logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h2>PrimeMart</h2>
+
+</div>
+
+<div class="header-actions">
+
+<button id="notificationBtn">🔔</button>
+
+<button id="wishlistBtn">❤️</button>
+
+<button id="cartBtn">🛒</button>
+
+</div>
+
+</header>
+
+<!-- ================= PRODUCT ================= -->
+
+<section class="product-section">
+
+<div class="product-gallery">
+
+<img
+id="mainImage"
+src="default-product.png"
+alt="Product">
+
+<div
+id="thumbnailContainer"
+class="thumbnail-container">
+
+</div>
+
+</div>
+
+<div class="product-info">
+
+<h1 id="productName">
+
+Loading...
+
+</h1>
+
+<p id="productBrand">
+
+Brand
+
+</p>
+
+<div class="price-box">
+
+<span id="productPrice">
+
+Rs.0
+
+</span>
+
+<span id="discountPrice">
+
+</span>
+
+</div>
+
+<div id="stockStatus">
+
+In Stock
+
+</div>
+<div class="product-rating">
+
+⭐⭐⭐⭐⭐
+
+<span id="reviewCount">
+
+(0 Reviews)
+
+</span>
+
+</div>
+
+<p id="productDescription">
+
+Loading description...
+
+</p>
+
+<div class="seller-box">
+
+<h3>
+
+Seller Information
+
+</h3>
+
+<p>
+
+Store:
+
+<span id="storeName">
+
+Loading...
+
+</span>
+
+</p>
+
+<p>
+
+Seller:
+
+<span id="sellerName">
+
+Loading...
+
+</span>
+
+</p>
+
+</div>
+
+<div class="delivery-box">
+
+<h3>
+
+Delivery
+
+</h3>
+
+<p>
+
+🚚 Fast Delivery All Over Pakistan
+
+</p>
+
+<p>
+
+💳 Cash on Delivery Available
+
+</p>
+
+</div>
+
+<div class="action-buttons">
+
+<button id="addToCartBtn">
+
+🛒 Add To Cart
+
+</button>
+
+<button id="buyNowBtn">
+
+⚡ Buy Now
+
+</button>
+
+<button id="wishlistProductBtn">
+
+❤️ Wishlist
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+<!-- ================= PRODUCT VIDEO ================= -->
+
+<section class="product-video">
+
+<h2>
+
+Product Video
+
+</h2>
+
+<video
+
+id="productVideo"
+
+controls
+
+width="100%">
+
+</video>
+
+</section>
+
+<!-- ================= PRODUCT SPECIFICATIONS ================= -->
+
+<section class="product-specifications">
+
+<h2>
+
+Specifications
+
+</h2>
+
+<table>
+
+<tr>
+
+<td>Category</td>
+
+<td id="productCategory">
+
+Loading...
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Brand</td>
+
+<td id="productBrandTable">
+
+Loading...
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Availability</td>
+
+<td id="availability">
+
+Loading...
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Condition</td>
+
+<td>
+
+New
+
+</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<!-- ================= RELATED PRODUCTS ================= -->
+
+<section class="related-products">
+
+<h2>
+
+Related Products
+
+</h2>
+
+<div
+
+id="relatedProducts"
+
+class="related-grid">
+
+</div>
+
+</section>
+<!-- ================= REVIEWS ================= -->
+
+<section class="product-reviews">
+
+<h2>
+
+Customer Reviews
+
+</h2>
+
+<div id="reviewsContainer">
+
+<p>
+
+No Reviews Yet
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= WRITE REVIEW ================= -->
+
+<section class="write-review">
+
+<h2>
+
+Write a Review
+
+</h2>
+
+<textarea
+
+id="reviewText"
+
+placeholder="Write your review...">
+
+</textarea>
+
+<br>
+
+<select id="reviewRating">
+
+<option value="5">⭐⭐⭐⭐⭐</option>
+
+<option value="4">⭐⭐⭐⭐</option>
+
+<option value="3">⭐⭐⭐</option>
+
+<option value="2">⭐⭐</option>
+
+<option value="1">⭐</option>
+
+</select>
+
+<br><br>
+
+<button id="submitReviewBtn">
+
+Submit Review
+
+</button>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="product-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+</footer>
+<!-- ================= SAFETY INFORMATION ================= -->
+
+<section class="product-safety">
+
+<h2>
+
+Safety Information
+
+</h2>
+
+<ul>
+
+<li>
+
+✔ 100% Original Product
+
+</li>
+
+<li>
+
+✔ Secure Payment
+
+</li>
+
+<li>
+
+✔ Easy Return Policy
+
+</li>
+
+<li>
+
+✔ PrimeMart Buyer Protection
+
+</li>
+
+</ul>
+
+</section>
+
+<!-- ================= SHARE PRODUCT ================= -->
+
+<section class="share-product">
+
+<h2>
+
+Share Product
+
+</h2>
+
+<div class="share-buttons">
+
+<button id="shareFacebook">
+
+Facebook
+
+</button>
+
+<button id="shareWhatsApp">
+
+WhatsApp
+
+</button>
+
+<button id="copyLink">
+
+Copy Link
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= PRODUCT TAGS ================= -->
+
+<section class="product-tags">
+
+<h2>
+
+Tags
+
+</h2>
+
+<div id="productTags">
+
+<span class="tag">
+
+PrimeMart
+
+</span>
+
+<span class="tag">
+
+Shopping
+
+</span>
+
+<span class="tag">
+
+Online Store
+
+</span>
+
+</div>
+
+</section>
+<!-- ================= BOTTOM SPACE ================= -->
+
+<div class="bottom-space"></div>
+
+</div>
+
+<script type="module" src="product-details.js"></script>
+
+</body>
+
+</html>
