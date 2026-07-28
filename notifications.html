@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Notifications | PrimeMart</title>
+
+<link rel="stylesheet"
+href="notifications.css">
+
+</head>
+
+<body>
+
+<div class="notifications-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="notifications-header">
+
+<div class="logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h2>PrimeMart</h2>
+
+</div>
+
+<div class="header-actions">
+
+<button onclick="window.location.href='index.html'">
+
+🏠 Home
+
+</button>
+
+<button onclick="window.location.href='profile.html'">
+
+👤 Profile
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<main class="notifications-container">
+
+<h1>
+
+🔔 Notifications
+
+</h1>
+
+<input
+type="text"
+id="notificationSearch"
+placeholder="Search notifications...">
+
+<select id="notificationFilter">
+
+<option value="all">All</option>
+
+<option value="order">Orders</option>
+
+<option value="shipping">Shipping</option>
+
+<option value="system">System</option>
+
+<option value="promotion">Promotions</option>
+
+</select>
+
+<div id="notificationsContainer">
+
+<p>
+
+Loading Notifications...
+
+</p>
+
+</div>
+<!-- ================= SUMMARY ================= -->
+
+<section class="notifications-summary">
+
+<div class="summary-card">
+
+<h3>Total</h3>
+
+<p id="totalNotifications">0</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Unread</h3>
+
+<p id="unreadNotifications">0</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Today</h3>
+
+<p id="todayNotifications">0</p>
+
+</div>
+
+</section>
+
+<!-- ================= EMPTY STATE ================= -->
+
+<section
+id="emptyNotifications"
+style="display:none;">
+
+<h2>
+
+No Notifications
+
+</h2>
+
+<p>
+
+You're all caught up.
+
+</p>
+
+<button
+onclick="window.location.href='index.html'">
+
+Continue Shopping
+
+</button>
+
+</section>
+<!-- ================= NOTIFICATION DETAILS ================= -->
+
+<section id="notificationDetailsSection">
+
+<h2>
+
+Notification Details
+
+</h2>
+
+<div id="notificationDetailsContainer">
+
+</div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section class="notification-actions">
+
+<h2>
+
+Quick Actions
+
+</h2>
+
+<div class="actions-grid">
+
+<button id="markAllReadBtn">
+
+✅ Mark All as Read
+
+</button>
+
+<button id="deleteAllBtn">
+
+🗑 Delete All
+
+</button>
+
+<button id="notificationSettingsBtn">
+
+⚙ Notification Settings
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= RECENT ACTIVITY ================= -->
+
+<section class="recent-activity">
+
+<h2>
+
+Recent Activity
+
+</h2>
+
+<div id="recentActivityContainer">
+
+</div>
+
+</section>
+<!-- ================= PREFERENCES ================= -->
+
+<section class="notification-preferences">
+
+<h2>
+
+Notification Preferences
+
+</h2>
+
+<label>
+
+<input type="checkbox" id="orderNotifications" checked>
+
+Order Updates
+
+</label>
+
+<br>
+
+<label>
+
+<input type="checkbox" id="shippingNotifications" checked>
+
+Shipping Updates
+
+</label>
+
+<br>
+
+<label>
+
+<input type="checkbox" id="promotionNotifications" checked>
+
+Promotions & Offers
+
+</label>
+
+<br>
+
+<label>
+
+<input type="checkbox" id="systemNotifications" checked>
+
+System Notifications
+
+</label>
+
+</section>
+
+<!-- ================= MUTE ================= -->
+
+<section class="notification-mute">
+
+<h2>
+
+Mute Notifications
+
+</h2>
+
+<select id="muteDuration">
+
+<option value="0">Don't Mute</option>
+
+<option value="1h">1 Hour</option>
+
+<option value="24h">24 Hours</option>
+
+<option value="7d">7 Days</option>
+
+</select>
+
+</section>
+<!-- ================= HELP ================= -->
+
+<section class="notifications-help">
+
+<h2>
+
+Need Help?
+
+</h2>
+
+<p>
+
+If you're having issues receiving notifications, contact PrimeMart Support.
+
+</p>
+
+<button id="notificationSupportBtn">
+
+Contact Support
+
+</button>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="notifications-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+<p>
+
+Secure Notifications • Buyer & Seller Updates
+
+</p>
+
+</footer>
+<!-- ================= PAGE END ================= -->
+
+</main>
+
+</div>
+
+<script type="module" src="notifications.js"></script>
+
+</body>
+
+</html>
