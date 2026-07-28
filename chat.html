@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Chat | PrimeMart</title>
+
+<link rel="stylesheet"
+href="chat.css">
+
+</head>
+
+<body>
+
+<div class="chat-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="chat-header">
+
+<div class="chat-user">
+
+<img
+id="chatUserImage"
+src="default-avatar.png"
+alt="User">
+
+<div>
+
+<h2 id="chatUserName">
+
+Loading...
+
+</h2>
+
+<p id="chatUserStatus">
+
+Offline
+
+</p>
+
+</div>
+
+</div>
+
+<div class="chat-actions">
+
+<button onclick="window.location.href='notifications.html'">
+
+🔔
+
+</button>
+
+<button onclick="window.location.href='index.html'">
+
+🏠
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ================= CHAT ================= -->
+
+<main class="chat-container">
+
+<div id="messagesContainer">
+
+<p>
+
+Loading Messages...
+
+</p>
+
+</div>
+<!-- ================= MESSAGE INPUT ================= -->
+
+<section class="chat-input-section">
+
+<div class="chat-tools">
+
+<input
+type="file"
+id="chatImageInput"
+accept="image/*"
+hidden>
+
+<button id="uploadImageBtn">
+
+🖼
+
+</button>
+
+</div>
+
+<div class="message-box">
+
+<input
+type="text"
+id="messageInput"
+placeholder="Type your message...">
+
+</div>
+
+<div class="send-box">
+
+<button id="sendMessageBtn">
+
+📤 Send
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= IMAGE PREVIEW ================= -->
+
+<section
+id="imagePreviewSection"
+style="display:none;">
+
+<img
+id="imagePreview"
+src=""
+alt="Preview">
+
+<button id="removeImageBtn">
+
+❌ Remove
+
+</button>
+
+</section>
+<!-- ================= CHAT INFO ================= -->
+
+<section class="chat-info">
+
+<h2>
+
+Conversation Details
+
+</h2>
+
+<div class="chat-info-card">
+
+<p>
+
+👤 <strong>User:</strong>
+
+<span id="conversationUser">
+
+Loading...
+
+</span>
+
+</p>
+
+<p>
+
+🕒 <strong>Last Seen:</strong>
+
+<span id="lastSeen">
+
+Unknown
+
+</span>
+
+</p>
+
+<p>
+
+👁️ <strong>Read Status:</strong>
+
+<span id="readStatus">
+
+Unread
+
+</span>
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= PINNED MESSAGE ================= -->
+
+<section class="pinned-message">
+
+<h2>
+
+📌 Pinned Message
+
+</h2>
+
+<div id="pinnedMessageContainer">
+
+<p>
+
+No pinned messages.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= TYPING STATUS ================= -->
+
+<section class="typing-status">
+
+<p id="typingIndicator">
+
+</p>
+
+</section>
+<!-- ================= CHAT OPTIONS ================= -->
+
+<section class="chat-options">
+
+<h2>
+
+Chat Options
+
+</h2>
+
+<div class="options-grid">
+
+<button id="emojiBtn">
+
+😊 Emoji
+
+</button>
+
+<button id="shareMediaBtn">
+
+📎 Share Media
+
+</button>
+
+<button id="clearChatBtn">
+
+🗑 Clear Chat
+
+</button>
+
+<button id="blockUserBtn">
+
+🚫 Block User
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= SHARED MEDIA ================= -->
+
+<section class="shared-media">
+
+<h2>
+
+Shared Media
+
+</h2>
+
+<div id="sharedMediaContainer">
+
+<p>
+
+No shared media yet.
+
+</p>
+
+</div>
+
+</section>
+<!-- ================= CALL ACTIONS ================= -->
+
+<section class="chat-call-actions">
+
+<h2>
+
+Communication
+
+</h2>
+
+<div class="actions-grid">
+
+<button id="voiceCallBtn">
+
+📞 Voice Call
+
+</button>
+
+<button id="videoCallBtn">
+
+🎥 Video Call
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= HELP ================= -->
+
+<section class="chat-help">
+
+<h2>
+
+Need Help?
+
+</h2>
+
+<p>
+
+If you're having issues with chat or messaging, contact PrimeMart Support.
+
+</p>
+
+<button id="chatSupportBtn">
+
+Contact Support
+
+</button>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="chat-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+<p>
+
+Secure Messaging • Buyer & Seller Communication
+
+</p>
+
+</footer>
+<!-- ================= PAGE END ================= -->
+
+</main>
+
+</div>
+
+<script type="module" src="chat.js"></script>
+
+</body>
+
+</html>
