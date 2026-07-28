@@ -1,1 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Orders | PrimeMart</title>
+
+<link rel="stylesheet" href="orders.css">
+
+</head>
+
+<body>
+
+<div class="orders-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="orders-header">
+
+<div class="logo">
+
+<img src="logo.png" alt="PrimeMart">
+
+<h2>PrimeMart</h2>
+
+</div>
+
+<div class="header-actions">
+
+<button onclick="window.location.href='index.html'">
+
+🏠 Home
+
+</button>
+
+<button onclick="window.location.href='profile.html'">
+
+👤 Profile
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<main class="orders-container">
+
+<h1>
+
+📦 My Orders
+
+</h1>
+
+<!-- ================= SEARCH ================= -->
+
+<input
+type="text"
+id="orderSearch"
+placeholder="Search Order...">
+
+<!-- ================= FILTER ================= -->
+
+<select id="statusFilter">
+
+<option value="all">All Orders</option>
+
+<option value="Pending">Pending</option>
+
+<option value="Accepted">Accepted</option>
+
+<option value="Shipped">Shipped</option>
+
+<option value="Completed">Completed</option>
+
+<option value="Cancelled">Cancelled</option>
+
+</select>
+
+<!-- ================= ORDERS LIST ================= -->
+
+<div id="ordersContainer">
+
+<p>
+
+Loading Orders...
+
+</p>
+
+</div>
+<!-- ================= ORDER SUMMARY ================= -->
+
+<section class="orders-summary">
+
+<div class="summary-card">
+
+<h3>Total Orders</h3>
+
+<p id="totalOrders">0</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Pending</h3>
+
+<p id="pendingOrders">0</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Completed</h3>
+
+<p id="completedOrders">0</p>
+
+</div>
+
+</section>
+
+<!-- ================= EMPTY ORDERS ================= -->
+
+<section
+id="emptyOrders"
+style="display:none;">
+
+<h2>
+
+No Orders Found
+
+</h2>
+
+<p>
+
+You haven't placed any orders yet.
+
+</p>
+
+<button
+onclick="window.location.href='index.html'">
+
+Start Shopping
+
+</button>
+
+</section>
+<!-- ================= ORDER DETAILS MODAL ================= -->
+
+<section id="orderDetailsSection">
+
+<h2>
+
+Order Details
+
+</h2>
+
+<div id="orderDetailsContainer">
+
+</div>
+
+</section>
+
+<!-- ================= TRACK ORDER ================= -->
+
+<section class="track-order">
+
+<h2>
+
+Track Your Order
+
+</h2>
+
+<div class="tracking-steps">
+
+<div class="step" id="stepPending">
+
+Pending
+
+</div>
+
+<div class="step" id="stepAccepted">
+
+Accepted
+
+</div>
+
+<div class="step" id="stepShipped">
+
+Shipped
+
+</div>
+
+<div class="step" id="stepCompleted">
+
+Completed
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= ORDER HISTORY ================= -->
+
+<section class="order-history">
+
+<h2>
+
+Recent Activity
+
+</h2>
+
+<div id="orderHistoryContainer">
+
+</div>
+
+</section>
+<!-- ================= ORDER ACTIONS ================= -->
+
+<section class="order-actions">
+
+<h2>
+
+Order Actions
+
+</h2>
+
+<div class="actions-grid">
+
+<button id="downloadInvoiceBtn">
+
+📄 Download Invoice
+
+</button>
+
+<button id="reorderBtn">
+
+🔁 Order Again
+
+</button>
+
+<button id="writeReviewBtn">
+
+⭐ Write Review
+
+</button>
+
+<button id="contactSellerBtn">
+
+💬 Contact Seller
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= ORDER STATUS INFO ================= -->
+
+<section class="status-information">
+
+<h2>
+
+Order Status Information
+
+</h2>
+
+<p>
+
+Pending → Accepted → Shipped → Completed
+
+</p>
+
+<p>
+
+If your order is cancelled, the status will change to Cancelled.
+
+</p>
+
+</section>
+<!-- ================= HELP SECTION ================= -->
+
+<section class="orders-help">
+
+<h2>
+
+Need Help With Your Order?
+
+</h2>
+
+<p>
+
+Our PrimeMart support team is available to help you with delivery, payments, returns, and refunds.
+
+</p>
+
+<button id="ordersSupportBtn">
+
+Contact Support
+
+</button>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="orders-footer">
+
+<p>
+
+© 2026 PrimeMart Marketplace
+
+</p>
+
+<p>
+
+Secure Shopping • Buyer Protection • Fast Delivery
+
+</p>
+
+</footer>
+<!-- ================= PAGE END ================= -->
+
+</main>
+
+</div>
+
+<script type="module" src="orders.js"></script>
+
+</body>
+
+</html>
