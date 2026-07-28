@@ -1,8 +1,8 @@
-// =====================================
-// PrimeMart Seller Dashboard v2.0
-// Step 1
-// Firebase Ready Version
-// =====================================
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 1 / 8
+// Firebase Product System
+// ==========================================
 
 import { auth, db, storage } from "./firebase-config.js";
 
@@ -10,50 +10,38 @@ import {
 collection,
 addDoc,
 getDocs,
-updateDoc,
-deleteDoc,
-doc,
 query,
 where,
+doc,
+deleteDoc,
+updateDoc,
 serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
 ref,
 uploadBytes,
-getDownloadURL,
-deleteObject
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 import {
 onAuthStateChanged,
 signOut
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// =====================================
-// Global Variables
-// =====================================
+// ==========================================
 
 let currentUser = null;
 let currentStore = null;
-let products = [];
-let editProductId = null;
+let currentProducts = [];
 
-// =====================================
-// HTML Elements
-// =====================================
+// ==========================================
 
-const productForm = document.getElementById("productForm");
+const productForm =
+document.getElementById("productForm");
 
-const storeTitle = document.getElementById("storeTitle");
-
-const logoutBtn = document.getElementById("logoutBtn");
-
-const productTableBody =
-document.getElementById("productTableBody");
+const productTable =
+document.querySelector("#productTable tbody");
 
 const totalProducts =
 document.getElementById("totalProducts");
@@ -61,17 +49,20 @@ document.getElementById("totalProducts");
 const totalOrders =
 document.getElementById("totalOrders");
 
-const totalRevenue =
-document.getElementById("totalRevenue");
+const totalSales =
+document.getElementById("totalSales");
 
-const storeRating =
-document.getElementById("storeRating");
+const totalReviews =
+document.getElementById("totalReviews");
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 2 / 8
+// Authentication + Store Loading
+// ==========================================
 
-// =====================================
-// Authentication
-// =====================================
+// ---------- Authentication ----------
 
-onAuthStateChanged(auth, async (user)=>{
+onAuthStateChanged(auth, async(user)=>{
 
 if(!user){
 
@@ -81,386 +72,212 @@ return;
 
 }
 
-currentUser=user;
+currentUser = user;
 
-// آگے Step 2 میں
-// Store Load ہوگا
+await loadStore();
 
-});
-// =====================================
-// Step 2
-// Load Seller Store
-// =====================================
-
-async function loadSellerStore() {
-
-    try {
-
-        const q = query(
-            collection(db, "stores"),
-            where("owner", "==", currentUser.uid)
-        );
-
-        const snapshot = await getDocs(q);
-
-        if (snapshot.empty) {
-
-            alert("Store not found.");
-
-            window.location.href = "create-store.html";
-
-            return;
-
-        }
-
-        snapshot.forEach((docSnap) => {
-
-            currentStore = {
-
-                id: docSnap.id,
-
-                ...docSnap.data()
-
-            };
-
-        });
-
-        if (storeTitle) {
-
-            storeTitle.textContent = currentStore.name;
-
-        }
-
-        loadProducts();
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        alert("Unable to load seller store.");
-
-    }
-
-}
-
-// =====================================
-// Load Products
-// =====================================
-
-async function loadProducts() {
-
-    products = [];
-
-    const q = query(
-
-        collection(db, "products"),
-
-        where("sellerId", "==", currentUser.uid)
-
-    );
-
-    const snapshot = await getDocs(q);
-
-    snapshot.forEach((docSnap) => {
-
-        products.push({
-
-            id: docSnap.id,
-
-            ...docSnap.data()
-
-        });
-
-    });
-
-    renderProducts();
-
-    updateDashboardCards();
-
-}
-
-// =====================================
-// Continue Authentication
-// =====================================
-
-onAuthStateChanged(auth, async (user) => {
-
-    if (!user) {
-
-        window.location.href = "login.html";
-
-        return;
-
-    }
-
-    currentUser = user;
-
-    await loadSellerStore();
+await loadProducts();
 
 });
-// =====================================
-// Step 3
-// Dashboard Cards + Product Rendering
-// =====================================
 
-function updateDashboardCards() {
+// ---------- Load Store ----------
 
-    if (totalProducts) {
+async function loadStore(){
 
-        totalProducts.textContent = products.length;
+const q = query(
 
-    }
+collection(db,"stores"),
 
-    if (totalOrders) {
+where("owner","==",currentUser.uid)
 
-        totalOrders.textContent = "0";
+);
 
-    }
+const snapshot = await getDocs(q);
 
-    if (totalRevenue) {
+if(snapshot.empty){
 
-        totalRevenue.textContent = "Rs.0";
+window.location.href="create-store.html";
 
-    }
-
-    if (storeRating) {
-
-        storeRating.textContent = "0 ⭐";
-
-    }
+return;
 
 }
 
-// =====================================
-// Render Products
-// =====================================
+snapshot.forEach((document)=>{
 
-function renderProducts() {
+currentStore={
 
-    if (!productTableBody) return;
+id:document.id,
 
-    productTableBody.innerHTML = "";
+...document.data()
 
-    if (products.length === 0) {
+};
 
-        productTableBody.innerHTML = `
+});
 
-<tr>
+const title=document.getElementById("storeTitle");
 
-<td colspan="7">
+if(title){
 
-No Products Available
-
-</td>
-
-</tr>
-
-`;
-
-        return;
-
-    }
-
-    products.forEach((product) => {
-
-        productTableBody.innerHTML += `
-
-<tr>
-
-<td>
-
-<img
-src="${product.image || 'logo.png'}"
-width="60"
-height="60"
-style="border-radius:8px;object-fit:cover;">
-
-</td>
-
-<td>
-
-${product.name}
-
-</td>
-
-<td>
-
-${product.category}
-
-</td>
-
-<td>
-
-Rs.${product.price}
-
-</td>
-
-<td>
-
-${product.stock}
-
-</td>
-
-<td>
-
-${product.status || "Active"}
-
-</td>
-
-<td>
-
-<button
-onclick="editProduct('${product.id}')">
-
-Edit
-
-</button>
-
-<button
-onclick="deleteProduct('${product.id}','${product.imagePath || ""}')">
-
-Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-    });
+title.textContent=currentStore.name;
 
 }
-// =====================================
-// Step 4
-// Create Product (Firestore + Storage)
-// =====================================
 
-if (productForm) {
+}
 
-productForm.addEventListener("submit", async (e) => {
+// ---------- Logout ----------
+
+const logoutBtn=document.getElementById("logoutBtn");
+
+if(logoutBtn){
+
+logoutBtn.addEventListener("click",async()=>{
+
+await signOut(auth);
+
+window.location.href="login.html";
+
+});
+
+}
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 3 / 8
+// Upload Product
+// ==========================================
+
+async function uploadImages(files){
+
+let imageURLs=[];
+
+for(const file of files){
+
+const imageRef = ref(
+
+storage,
+
+`products/${currentUser.uid}/${Date.now()}_${file.name}`
+
+);
+
+await uploadBytes(imageRef,file);
+
+const url = await getDownloadURL(imageRef);
+
+imageURLs.push(url);
+
+}
+
+return imageURLs;
+
+}
+
+async function uploadVideo(file){
+
+if(!file) return "";
+
+const videoRef = ref(
+
+storage,
+
+`products/videos/${currentUser.uid}/${Date.now()}_${file.name}`
+
+);
+
+await uploadBytes(videoRef,file);
+
+return await getDownloadURL(videoRef);
+
+}
+
+// ==========================================
+// Create Product
+// ==========================================
+
+if(productForm){
+
+productForm.addEventListener("submit",async(e)=>{
 
 e.preventDefault();
 
-try {
+try{
 
-const productName =
-document.getElementById("productName").value;
+const images = await uploadImages(
 
-const productCategory =
-document.getElementById("productCategory").value;
+document.getElementById("productImages").files
 
-const productPrice =
-document.getElementById("productPrice").value;
+);
 
-const discountPrice =
-document.getElementById("discountPrice").value;
+const video = await uploadVideo(
 
-const productStock =
-document.getElementById("productStock").value;
+document.getElementById("productVideo").files[0]
 
-const brand =
-document.getElementById("brand").value;
+);
 
-const description =
-document.getElementById("description").value;
+await addDoc(
 
-const imageFile =
-document.getElementById("productImages").files[0];
+collection(db,"products"),
 
-const videoFile =
-document.getElementById("productVideo").files[0];
+{
 
-let imageURL = "";
-let imagePath = "";
+sellerId:currentUser.uid,
 
-let videoURL = "";
-let videoPath = "";
+storeId:currentStore.id,
 
-// =====================
-// Upload Image
-// =====================
+storeName:currentStore.name,
 
-if (imageFile) {
+productName:
 
-imagePath =
-`products/${currentUser.uid}/${Date.now()}_${imageFile.name}`;
+document.getElementById("productName").value,
 
-const imageRef = ref(storage, imagePath);
+category:
 
-await uploadBytes(imageRef, imageFile);
+document.getElementById("productCategory").value,
 
-imageURL =
-await getDownloadURL(imageRef);
+price:Number(
+
+document.getElementById("productPrice").value
+
+),
+
+discountPrice:Number(
+
+document.getElementById("discountPrice").value
+
+),
+
+stock:Number(
+
+document.getElementById("productStock").value
+
+),
+
+brand:
+
+document.getElementById("brand").value,
+
+description:
+
+document.getElementById("description").value,
+
+images,
+
+video,
+
+status:"Active",
+
+featured:false,
+
+rating:0,
+
+reviews:0,
+
+sales:0,
+
+createdAt:serverTimestamp()
 
 }
 
-// =====================
-// Upload Video
-// =====================
-
-if (videoFile) {
-
-videoPath =
-`products/${currentUser.uid}/${Date.now()}_${videoFile.name}`;
-
-const videoRef = ref(storage, videoPath);
-
-await uploadBytes(videoRef, videoFile);
-
-videoURL =
-await getDownloadURL(videoRef);
-
-}
-
-// =====================
-// Save Product
-// =====================
-
-await addDoc(collection(db, "products"), {
-
-sellerId: currentUser.uid,
-
-storeId: currentStore.id,
-
-storeName: currentStore.name,
-
-name: productName,
-
-category: productCategory,
-
-price: Number(productPrice),
-
-discountPrice: Number(discountPrice),
-
-stock: Number(productStock),
-
-brand: brand,
-
-description: description,
-
-image: imageURL,
-
-imagePath: imagePath,
-
-video: videoURL,
-
-videoPath: videoPath,
-
-status: "Active",
-
-rating: 0,
-
-reviews: 0,
-
-orders: 0,
-
-createdAt: serverTimestamp()
-
-});
+);
 
 alert("✅ Product Added Successfully");
 
@@ -481,56 +298,236 @@ alert(error.message);
 });
 
 }
-// =====================================
-// Step 5
-// Delete + Edit + Logout
-// =====================================
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 4 / 8
+// Load Products + Dashboard Cards
+// ==========================================
 
-import {
-deleteDoc,
-updateDoc,
-doc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import {
-deleteObject,
-ref
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-// =====================================
-// Delete Product
-// =====================================
-
-window.deleteProduct = async function(productId, imagePath){
+async function loadProducts(){
 
 try{
 
-const confirmDelete =
-confirm("Delete this product?");
+const q = query(
 
-if(!confirmDelete) return;
+collection(db,"products"),
 
-// Delete Image
+where("sellerId","==",currentUser.uid)
 
-if(imagePath){
+);
 
-const imageRef = ref(storage,imagePath);
+const snapshot = await getDocs(q);
 
-await deleteObject(imageRef);
+currentProducts=[];
+
+snapshot.forEach((document)=>{
+
+currentProducts.push({
+
+id:document.id,
+
+...document.data()
+
+});
+
+});
+
+renderProducts();
+
+updateDashboardCards();
 
 }
 
-// Delete Firestore Document
+catch(error){
+
+console.error(error);
+
+}
+
+}
+
+// ==========================================
+// Dashboard Cards
+// ==========================================
+
+function updateDashboardCards(){
+
+if(totalProducts){
+
+totalProducts.textContent=currentProducts.length;
+
+}
+
+if(totalOrders){
+
+let orders=0;
+
+currentProducts.forEach(product=>{
+
+orders+=product.sales||0;
+
+});
+
+totalOrders.textContent=orders;
+
+}
+
+if(totalSales){
+
+let earnings=0;
+
+currentProducts.forEach(product=>{
+
+earnings+=(product.sales||0)*(product.price||0);
+
+});
+
+totalSales.textContent="Rs. "+earnings;
+
+}
+
+if(totalReviews){
+
+let reviews=0;
+
+currentProducts.forEach(product=>{
+
+reviews+=product.reviews||0;
+
+});
+
+totalReviews.textContent=reviews;
+
+}
+
+}
+
+// ==========================================
+// Product Table
+// ==========================================
+
+function renderProducts(){
+
+if(!productTable) return;
+
+productTable.innerHTML="";
+
+if(currentProducts.length===0){
+
+productTable.innerHTML=`
+
+<tr>
+
+<td colspan="6">
+
+No Products Yet
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+currentProducts.forEach((product,index)=>{
+
+productTable.innerHTML+=`
+
+<tr>
+
+<td>
+
+<img
+src="${product.images[0]}"
+width="60">
+
+</td>
+
+<td>
+
+${product.productName}
+
+</td>
+
+<td>
+
+${product.category}
+
+</td>
+
+<td>
+
+Rs. ${product.price}
+
+</td>
+
+<td>
+
+${product.stock}
+
+</td>
+
+<td>
+
+<button onclick="editProduct(${index})">
+
+Edit
+
+</button>
+
+<button onclick="deleteProduct('${product.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 5 / 8
+// Edit + Delete Product
+// ==========================================
+
+// ==========================================
+// Delete Product
+// ==========================================
+
+window.deleteProduct = async function(productId){
+
+try{
+
+const confirmDelete = confirm(
+
+"Are you sure you want to delete this product?"
+
+);
+
+if(!confirmDelete) return;
 
 await deleteDoc(
+
 doc(db,"products",productId)
+
 );
+
+alert("✅ Product Deleted Successfully");
 
 await loadProducts();
 
-alert("✅ Product Deleted");
+}
 
-}catch(error){
+catch(error){
 
 console.error(error);
 
@@ -540,21 +537,20 @@ alert(error.message);
 
 };
 
-// =====================================
+// ==========================================
 // Edit Product
-// =====================================
+// ==========================================
 
-window.editProduct = function(productId){
+let editingProductId = null;
 
-const product =
-products.find(p=>p.id===productId);
+window.editProduct = function(index){
 
-if(!product) return;
+const product = currentProducts[index];
 
-editProductId = product.id;
+editingProductId = product.id;
 
 document.getElementById("productName").value =
-product.name;
+product.productName;
 
 document.getElementById("productCategory").value =
 product.category;
@@ -584,65 +580,56 @@ behavior:"smooth"
 
 };
 
-// =====================================
-// Logout
-// =====================================
-
-if(logoutBtn){
-
-logoutBtn.addEventListener("click",async()=>{
-
-await signOut(auth);
-
-window.location.href="login.html";
-
-});
-
-}
-
-// =====================================
-// Refresh Dashboard
-// =====================================
-
-window.refreshDashboard = async()=>{
-
-await loadProducts();
-
-updateDashboardCards();
-
-};
-// =====================================
-// Step 6
-// Update Product + Final Initialization
-// =====================================
-
-// =====================
+// ==========================================
 // Update Existing Product
-// =====================
+// ==========================================
 
 async function updateExistingProduct(data){
 
+await updateDoc(
+
+doc(db,"products",editingProductId),
+
+data
+
+);
+
+editingProductId = null;
+
+}
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 6 / 8
+// Update Product Logic
+// ==========================================
+
+async function saveOrUpdateProduct(productData){
+
 try{
+
+if(editingProductId){
 
 await updateDoc(
 
-doc(db,"products",editProductId),
+doc(db,"products",editingProductId),
 
 {
 
-name:data.name,
+productName:productData.productName,
 
-category:data.category,
+category:productData.category,
 
-price:Number(data.price),
+price:Number(productData.price),
 
-discountPrice:Number(data.discount),
+discountPrice:Number(productData.discountPrice),
 
-stock:Number(data.stock),
+stock:Number(productData.stock),
 
-brand:data.brand,
+brand:productData.brand,
 
-description:data.description,
+description:productData.description,
+
+status:"Active",
 
 updatedAt:serverTimestamp()
 
@@ -650,11 +637,27 @@ updatedAt:serverTimestamp()
 
 );
 
-editProductId = null;
+alert("✅ Product Updated Successfully");
+
+editingProductId = null;
+
+}else{
+
+await addDoc(
+
+collection(db,"products"),
+
+productData
+
+);
+
+alert("✅ Product Added Successfully");
+
+}
+
+productForm.reset();
 
 await loadProducts();
-
-alert("✅ Product Updated Successfully");
 
 }
 
@@ -668,32 +671,339 @@ alert(error.message);
 
 }
 
-// =====================================
-// Dashboard Initialization
-// =====================================
+// ==========================================
+// Helper
+// ==========================================
 
-document.addEventListener("DOMContentLoaded",async()=>{
+function getProductFormData(images,video){
 
-if(auth.currentUser){
+return{
 
-currentUser = auth.currentUser;
+sellerId:currentUser.uid,
 
-await loadSellerStore();
+storeId:currentStore.id,
+
+storeName:currentStore.name,
+
+productName:
+
+document.getElementById("productName").value.trim(),
+
+category:
+
+document.getElementById("productCategory").value,
+
+price:
+
+document.getElementById("productPrice").value,
+
+discountPrice:
+
+document.getElementById("discountPrice").value,
+
+stock:
+
+document.getElementById("productStock").value,
+
+brand:
+
+document.getElementById("brand").value.trim(),
+
+description:
+
+document.getElementById("description").value.trim(),
+
+images,
+
+video,
+
+featured:false,
+
+status:"Active",
+
+rating:0,
+
+reviews:0,
+
+sales:0,
+
+updatedAt:serverTimestamp(),
+
+createdAt:serverTimestamp()
+
+};
 
 }
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 7 / 8
+// Search + Filters + Image Preview
+// ==========================================
+
+// ==========================================
+// Product Image Preview
+// ==========================================
+
+const imageInput =
+document.getElementById("productImages");
+
+const previewContainer =
+document.getElementById("imagePreview");
+
+if(imageInput){
+
+imageInput.addEventListener("change",()=>{
+
+if(!previewContainer) return;
+
+previewContainer.innerHTML="";
+
+Array.from(imageInput.files).forEach(file=>{
+
+const reader=new FileReader();
+
+reader.onload=(e)=>{
+
+previewContainer.innerHTML+=`
+
+<img
+src="${e.target.result}"
+width="80"
+height="80"
+style="object-fit:cover;border-radius:8px;margin:5px;">
+
+`;
+
+};
+
+reader.readAsDataURL(file);
 
 });
 
-// =====================================
-// Export (Future)
-// =====================================
+});
 
-window.loadProducts = loadProducts;
+}
 
-window.updateDashboardCards = updateDashboardCards;
+// ==========================================
+// Product Search
+// ==========================================
 
-// =====================================
-// PrimeMart Seller Dashboard v2.0
+const searchInput =
+document.getElementById("searchProduct");
+
+if(searchInput){
+
+searchInput.addEventListener("keyup",()=>{
+
+const keyword =
+searchInput.value.toLowerCase();
+
+const filtered=currentProducts.filter(product=>
+
+product.productName.toLowerCase().includes(keyword)
+
+);
+
+renderFilteredProducts(filtered);
+
+});
+
+}
+
+// ==========================================
+// Category Filter
+// ==========================================
+
+const categoryFilter =
+document.getElementById("categoryFilter");
+
+if(categoryFilter){
+
+categoryFilter.addEventListener("change",()=>{
+
+const value=categoryFilter.value;
+
+if(value===""){
+
+renderProducts();
+
+return;
+
+}
+
+const filtered=currentProducts.filter(product=>
+
+product.category===value
+
+);
+
+renderFilteredProducts(filtered);
+
+});
+
+}
+
+// ==========================================
+// Render Filtered Products
+// ==========================================
+
+function renderFilteredProducts(list){
+
+if(!productTable) return;
+
+productTable.innerHTML="";
+
+if(list.length===0){
+
+productTable.innerHTML=`
+
+<tr>
+
+<td colspan="6">
+
+No Products Found
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+list.forEach((product,index)=>{
+
+productTable.innerHTML+=`
+
+<tr>
+
+<td>
+
+<img
+src="${product.images[0]}"
+width="60">
+
+</td>
+
+<td>
+
+${product.productName}
+
+</td>
+
+<td>
+
+${product.category}
+
+</td>
+
+<td>
+
+Rs. ${product.price}
+
+</td>
+
+<td>
+
+${product.stock}
+
+</td>
+
+<td>
+
+<button onclick="editProduct(${index})">
+
+Edit
+
+</button>
+
+<button onclick="deleteProduct('${product.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+// ==========================================
+// PrimeMart Seller Dashboard v3.0
+// Part 8 / 8
+// Final Initialization
+// ==========================================
+
+// ==========================================
+// Refresh Dashboard
+// ==========================================
+
+async function refreshDashboard(){
+
+await loadProducts();
+
+updateDashboardCards();
+
+}
+
+// ==========================================
+// Reset Form
+// ==========================================
+
+function resetProductForm(){
+
+editingProductId = null;
+
+if(productForm){
+
+productForm.reset();
+
+}
+
+const previewContainer =
+document.getElementById("imagePreview");
+
+if(previewContainer){
+
+previewContainer.innerHTML="";
+
+}
+
+}
+
+// ==========================================
+// Future Ready Exports
+// ==========================================
+
+window.refreshDashboard = refreshDashboard;
+
+window.renderProducts = renderProducts;
+
+window.renderFilteredProducts = renderFilteredProducts;
+
+window.resetProductForm = resetProductForm;
+
+// ==========================================
+// Initial Load
+// ==========================================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+console.log("PrimeMart Seller Dashboard Loaded");
+
+});
+
+// ==========================================
+// PrimeMart Marketplace
+// Seller Dashboard v3.0
 // Firebase Ready
+// Firestore Ready
+// Storage Ready
 // LocalStorage Removed
-// =====================================
+// ==========================================
